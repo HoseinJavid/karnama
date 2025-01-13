@@ -1,0 +1,61 @@
+name: mdata_base
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.5
+  flutter_animate: ^4.5.2
+  lottie: ^3.2.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.13
+  google_fonts: ^6.2.1
+
+  
+flutter:
+  fonts:
+    - family: iranYekan
+      fonts:
+        - asset: assets/fonts/iranYekan/IRANYekanMobileBlack.ttf
+          weight: 900
+        - asset: assets/fonts/iranYekan/IRANYekanMobileBold.ttf
+          weight: 700
+        # - asset: assets/fonts/iranYekan/IRANYekanMobileExtraBlack.ttf
+        #   weight: 950
+        - asset: assets/fonts/iranYekan/IRANYekanMobileExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/iranYekan/IRANYekanMobileLight.ttf
+          weight: 300
+        - asset: assets/fonts/iranYekan/IRANYekanMobileMedium.ttf
+          weight: 500
+        - asset: assets/fonts/iranYekan/IRANYekanMobileRegular.ttf
+          weight: 400
+        - asset: assets/fonts/iranYekan/IRANYekanMobileThin.ttf
+          weight: 100
+  assets:
+    - assets/fonts/
+  uses-material-design: true
+  generate: true # Add this line
+  # localizations:
+  #   delegates:
+  #     - AppLocalizations.delegate
+  #   supportedLocales:
+  #     - en
+  #     - fa

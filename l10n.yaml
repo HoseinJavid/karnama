@@ -1,0 +1,5 @@
+arb-dir: lib/l10n # مسیر فایل‌های ARB
+template-arb-file: app_en.arb # فایل زبان پیش‌فرض
+output-localization-file: app_localizations.dart # خروجی کد تولیدشده
+output-class: AppLocalizations # نام کلاس خروجی
+untranslated-messages-file: untranslated_messages.json # گزارش پیام‌های ترجمه‌نشده

@@ -1,0 +1,17 @@
+{
+    "toDoList": "To Do List",
+    "searchTask": "search task...",
+    "today": "Today",
+    "deleteAll": "Delete All",
+    "addNewTask": "Add new Task",
+    "editTask": "Edit Task",
+    "high": "high",
+    "normal": "normal",
+    "low": "low",
+    "saveChanges": "Save Changes",
+    "deleteTasks": "Delete Tasks",
+    "deleteTaskCaption": "Do you want to delete all tasks?",
+    "yes": "Yes",
+    "no": "No",
+    "addATaskForToday":"add a task for today ..."
+}
