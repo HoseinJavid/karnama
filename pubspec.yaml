@@ -19,6 +19,9 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   intl: any
+  flutter_native_splash: ^2.4.4
+  flutter_svg: ^2.0.17
+  flutter_launcher_icons: ^0.14.3
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +54,13 @@ flutter:
           weight: 100
   assets:
     - assets/fonts/
+    - assets/animation/splash/animation.json
+    - assets/animation/home/defult.json
+    - assets/img/splash/splash.png
+    - assets/img/icon/icon.png
+
+
+
   uses-material-design: true
   generate: true # Add this line
   # localizations:
@@ -59,3 +69,17 @@ flutter:
   #   supportedLocales:
   #     - en
   #     - fa
+
+flutter_native_splash:
+  color: "#ffffff" # رنگ پس‌زمینه صفحه اسپلش
+  image: assets/img/splash/splash.png # مسیر تصویر لوگو
+  android: true # فعال کردن اسپلش برای اندروید
+  ios: true # فعال کردن اسپلش برای iOS
+  android_12:
+    icon_background_color: "#ffffff" # رنگ پس‌زمینه لوگو در اندروید 12
+    image: assets/img/splash/splash.png # مسیر تصویر لوگو در اندروید 12
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/img/icon/icon.png" # مسیر آیکون

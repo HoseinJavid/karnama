@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mdata.dart';
+part of 'model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

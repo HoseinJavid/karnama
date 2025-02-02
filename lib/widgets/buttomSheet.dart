@@ -1,14 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mdata_base/editTask.dart';
-import 'package:mdata_base/mdata.dart';
+import 'package:mdata_base/controller/taskController.dart';
+import 'package:mdata_base/model/model.dart';
+import 'package:mdata_base/view/editTask.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomButtomSheet extends StatelessWidget {
-  final Box<Task> taskBox;
+  final TaskController controller;
   final int index;
   const CustomButtomSheet(
-      {super.key, required this.index, required this.taskBox});
+      {super.key, required this.index, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,10 @@ class CustomButtomSheet extends StatelessWidget {
                 () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => EdittaskScreen(taskBox: taskBox,index: index,),
+                    builder: (context) => EdittaskScreen(
+                      controller: controller,
+                      index: index,
+                    ),
                   ));
                 },
               );
@@ -35,24 +40,25 @@ class CustomButtomSheet extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: const Text('Edit',
-                    style: TextStyle(fontWeight: FontWeight.w700)),
+                child:  Text(AppLocalizations.of(context)!.edit,
+                    style: const TextStyle(fontWeight: FontWeight.w700)),
               ),
             ),
           ),
           InkWell(
-            onTap:() {
+            onTap: () {
               //auto update ui with ValueListenableBuilder
-              taskBox.deleteAt(index);
+              controller.deleteTask(index);
               Navigator.of(context).pop();
+              FocusScope.of(context).unfocus();
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: const Text(
-                  'Delete',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                child:  Text(
+                  AppLocalizations.of(context)!.delete,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -63,13 +69,13 @@ class CustomButtomSheet extends StatelessWidget {
   }
 
   static Future<void> showCustomModalBottomSheet(
-      BuildContext context, int index, Box<Task> taskBox) async {
+      BuildContext context, int index, TaskController controller) async {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return CustomButtomSheet(
           index: index,
-          taskBox: taskBox,
+          controller: controller,
         );
       },
       useSafeArea: true,

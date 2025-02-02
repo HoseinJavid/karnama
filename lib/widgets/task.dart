@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:hive/hive.dart';
+import 'package:mdata_base/controller/taskController.dart';
+import 'package:mdata_base/model/model.dart';
+import 'package:mdata_base/widgets/buttomSheet.dart';
+
+class TaskItem extends StatefulWidget {
+  const TaskItem(
+      {super.key,
+      required this.themeData,
+      required this.task,
+      required this.index,
+      required this.controller});
+
+  final ThemeData themeData;
+  final Task task;
+  final int index;
+  final TaskController controller;
+  @override
+  State<TaskItem> createState() => _TaskItemState();
+}
+
+class _TaskItemState extends State<TaskItem> {
+  Map<Priority, Color> priorityColor = {
+    Priority.high: const Color(0xff7465FF),
+    Priority.normal: const Color(0xffFC7E2F),
+    Priority.low: const Color(0xff1CC4F6)
+  };
+  bool ischecked = false;
+  // bool checkBox = true;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            //priority task
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: widget.task.priority == Priority.high
+                    ? priorityColor[Priority.high]
+                    : widget.task.priority == Priority.normal
+                        ? priorityColor[Priority.normal]
+                        : widget.task.priority == Priority.low
+                            ? priorityColor[Priority.low]
+                            : null,
+              ),
+              height: 65,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  color: widget.themeData.colorScheme.onPrimary,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomLeft: Radius.circular(5)),
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1))]
+                  // color: Colors.black,
+                  ),
+              height: 65,
+              width: MediaQuery.sizeOf(context).width - 32 - 8,
+              child: Row(
+                children: [
+                  Checkbox(
+                    shape: const CircleBorder(),
+                    side: BorderSide(
+                        color: Colors.black.withOpacity(0.10), width: 2),
+                    value: widget.task.isCompleted,
+                    onChanged: (value) {
+                      setState(() {});
+                    },
+                  ),
+                  Expanded(
+                      child: Text(
+                    widget.task.name,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: widget.themeData.textTheme.bodyMedium!.copyWith(
+                        height: 2,
+                        // backgroundColor:
+                        //     widget.taskBox.getAt(widget.index)!.isCompleted
+                        //         ? widget.themeData.colorScheme.primary
+                        //             .withOpacity(0.05)
+                        //         : null,
+                        decoration:
+                            widget.controller.getTask(widget.index)!.isCompleted
+                                ? TextDecoration.lineThrough
+                                : null),
+                  )),
+                  const SizedBox(
+                    width: 8,
+                  )
+                ],
+              ),
+            ),
+            Positioned.fill(
+                child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onLongPress: () {
+                  CustomButtomSheet.showCustomModalBottomSheet(
+                      context, widget.index, widget.controller);
+                },
+                onTap: () {
+                  // setState(() {
+                  //   ischecked = ! ischecked;
+                  update_isComplate_dbTask();
+                  // });
+                },
+                splashColor:
+                    widget.themeData.colorScheme.primary.withOpacity(0.08),
+                highlightColor:
+                    widget.themeData.colorScheme.primary.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(5),
+              ),
+            )),
+          ],
+        ),
+        const SizedBox(
+          height: 8,
+        )
+      ],
+    );
+  }
+
+  void update_isComplate_dbTask() {
+    //update auto ui after db
+    widget.task.isCompleted = !widget.task.isCompleted;
+    //update db
+    widget.controller.toggleTask(widget.index, widget.task);
+  }
+}

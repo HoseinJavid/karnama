@@ -1,15 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:mdata_base/mdata.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mdata_base/controller/taskController.dart';
+import 'package:mdata_base/model/model.dart';
 
 class EdittaskScreen extends StatefulWidget {
-  final Box<Task> taskBox;
+  final TaskController controller;
+
+  // final Box<Task> taskBox;
   final int? index;
-  const EdittaskScreen({super.key, required this.taskBox, this.index});
+
+  const EdittaskScreen({super.key, required this.controller, this.index});
 
   @override
   State<EdittaskScreen> createState() => _EdittaskScreenState();
@@ -27,10 +28,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
   void initState() {
     textController = TextEditingController(
         text: widget.index != null
-            ? widget.taskBox.getAt(widget.index!)!.name
+            ? widget.controller.getTask(widget.index!)!.name
             : null);
     if (widget.index != null) {
-      prioritysState[widget.taskBox.getAt(widget.index!)!.priority] = true;
+      prioritysState[widget.controller.getTask(widget.index!)!.priority] = true;
     } else {
       prioritysState[Priority.normal] = true;
     }
@@ -54,8 +55,12 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                 },
               );
               widget.index != null
-                  ? widget.taskBox.getAt(widget.index!)
-                  : widget.taskBox.add(Task(
+                  ? widget.controller.toggleTask(
+                      widget.index!,
+                      Task(
+                          name: textController.text,
+                          priority: prioritySelected))
+                  : widget.controller.addTask(Task(
                       name: textController.text, priority: prioritySelected));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
@@ -173,6 +178,7 @@ class PriorityWidget extends StatefulWidget {
   final Map<Priority, bool> prioritysState;
   final Function(Map<Priority, bool> prioritysState) prioritysStateChange;
   final String l10nName;
+
   const PriorityWidget(
       {super.key,
       required this.color,
@@ -187,6 +193,7 @@ class PriorityWidget extends StatefulWidget {
 
 class _PriorityWidgetState extends State<PriorityWidget> {
   bool checkBox = true;
+
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
@@ -197,7 +204,7 @@ class _PriorityWidgetState extends State<PriorityWidget> {
         });
       },
       child: Container(
-        width: 118,
+        width: (MediaQuery.of(context).size.width - 60) / 3,
         height: 30,
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black.withOpacity(0.1)),

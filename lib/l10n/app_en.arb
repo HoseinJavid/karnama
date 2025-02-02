@@ -13,5 +13,7 @@
     "deleteTaskCaption": "Do you want to delete all tasks?",
     "yes": "Yes",
     "no": "No",
-    "addATaskForToday":"add a task for today ..."
+    "addATaskForToday":"add a task for today ...",
+    "edit": "Edit",
+    "delete": "Delete"
 }

@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-part 'mdata.g.dart';
+part 'model.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
