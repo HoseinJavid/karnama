@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:mdata_base/bloc/task_bloc.dart';
 import 'package:mdata_base/controller/taskController.dart';
 import 'package:mdata_base/model/model.dart';
+import 'package:mdata_base/source/repository_injection.dart';
 import 'package:mdata_base/view/editTask.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomButtomSheet extends StatelessWidget {
-  final TaskController controller;
-  final int index;
+  final Repository repository;
+  final Task task;
   const CustomButtomSheet(
-      {super.key, required this.index, required this.controller});
+      {super.key, required this.task, required this.repository});
 
   @override
   Widget build(BuildContext context) {
+    TaskBloc bloc = BlocProvider.of<TaskBloc>(context);
     return Container(
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -29,8 +33,8 @@ class CustomButtomSheet extends StatelessWidget {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => EdittaskScreen(
-                      controller: controller,
-                      index: index,
+                      repository: repository,
+                      task: task,
                     ),
                   ));
                 },
@@ -40,15 +44,16 @@ class CustomButtomSheet extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child:  Text(AppLocalizations.of(context)!.edit,
+                child: Text(AppLocalizations.of(context)!.edit,
                     style: const TextStyle(fontWeight: FontWeight.w700)),
               ),
             ),
           ),
           InkWell(
-            onTap: () {
+            onTap: () async {
               //auto update ui with ValueListenableBuilder
-              controller.deleteTask(index);
+              // repository.delete(task);
+              bloc.add(TasksDelete(task));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
             },
@@ -56,7 +61,7 @@ class CustomButtomSheet extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child:  Text(
+                child: Text(
                   AppLocalizations.of(context)!.delete,
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
@@ -69,13 +74,13 @@ class CustomButtomSheet extends StatelessWidget {
   }
 
   static Future<void> showCustomModalBottomSheet(
-      BuildContext context, int index, TaskController controller) async {
+      BuildContext context, Task task, Repository repository) async {
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return CustomButtomSheet(
-          index: index,
-          controller: controller,
+          task: task,
+          repository: repository,
         );
       },
       useSafeArea: true,

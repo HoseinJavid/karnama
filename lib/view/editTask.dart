@@ -1,16 +1,21 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mdata_base/bloc/task_bloc.dart';
 import 'package:mdata_base/controller/taskController.dart';
 import 'package:mdata_base/model/model.dart';
+import 'package:mdata_base/source/repository_injection.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class EdittaskScreen extends StatefulWidget {
-  final TaskController controller;
+  final Repository repository;
+  final Task? task;
 
-  // final Box<Task> taskBox;
-  final int? index;
-
-  const EdittaskScreen({super.key, required this.controller, this.index});
+  const EdittaskScreen({super.key, required this.repository, this.task});
 
   @override
   State<EdittaskScreen> createState() => _EdittaskScreenState();
@@ -26,12 +31,9 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
 
   @override
   void initState() {
-    textController = TextEditingController(
-        text: widget.index != null
-            ? widget.controller.getTask(widget.index!)!.name
-            : null);
-    if (widget.index != null) {
-      prioritysState[widget.controller.getTask(widget.index!)!.priority] = true;
+    textController = TextEditingController(text: widget.task?.name);
+    if (widget.task != null) {
+      prioritysState[widget.task!.priority] = true;
     } else {
       prioritysState[Priority.normal] = true;
     }
@@ -40,6 +42,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TaskBloc bloc = BlocProvider.of<TaskBloc>(context);
+
     AppLocalizations? appLocalizations = AppLocalizations.of(context);
     ThemeData themeData = Theme.of(context);
     return SafeArea(
@@ -54,14 +58,14 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                   }
                 },
               );
-              widget.index != null
-                  ? widget.controller.toggleTask(
-                      widget.index!,
-                      Task(
-                          name: textController.text,
-                          priority: prioritySelected))
-                  : widget.controller.addTask(Task(
-                      name: textController.text, priority: prioritySelected));
+              if (widget.task != null) {
+                widget.task!.name = textController.text;
+                widget.task!.priority = prioritySelected;
+                bloc.add(TasksUpdate(widget.task!));
+              } else {
+                bloc.add(TasksCreate(Task(
+                    name: textController.text, priority: prioritySelected)));
+              }
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
             },
@@ -76,94 +80,183 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             )),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.only(
+            bottom: 24,
+            top: 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Localizations.localeOf(context) ==
-                                  const Locale('en')
-                              ? const Icon(CupertinoIcons.arrow_left)
-                              : const Icon(CupertinoIcons.arrow_right)),
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: Row(
+                  children: [
+                    InkWell(
+                      borderRadius: BorderRadius.circular(30),
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Localizations.localeOf(context) ==
+                                    const Locale('en')
+                                ? const Icon(CupertinoIcons.arrow_left)
+                                : const Icon(CupertinoIcons.arrow_right)),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    appLocalizations.editTask,
-                    style: themeData.textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
+                    const SizedBox(
+                      width: 16,
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  PriorityWidget(
-                    priority: Priority.high,
-                    color: const Color(0xff7465FF),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.high,
-                  ),
-                  PriorityWidget(
-                    priority: Priority.normal,
-                    color: const Color(0xffFC7E2F),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.normal,
-                  ),
-                  PriorityWidget(
-                    priority: Priority.low,
-                    color: const Color(0xff1CC4F6),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.low,
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Expanded(
-                  child: TextField(
-                expands: true,
-                maxLines: null,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: false,
-                  hintText: appLocalizations.addATaskForToday,
+                    Text(
+                      appLocalizations.editTask,
+                      style: themeData.textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  ],
                 ),
-                controller: textController,
-              ))
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PriorityWidget(
+                      priority: Priority.high,
+                      color: const Color(0xff7465FF),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.high,
+                    ),
+                    PriorityWidget(
+                      priority: Priority.normal,
+                      color: const Color(0xffFC7E2F),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.normal,
+                    ),
+                    PriorityWidget(
+                      priority: Priority.low,
+                      color: const Color(0xff1CC4F6),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.low,
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: TextField(
+                  // expands: true,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    filled: false,
+                    hintText: appLocalizations.addATaskForToday,
+                  ),
+                  controller: textController,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: () async {
+                  Jalali? picked = await showPersianDatePicker(
+                    context: context,
+                    initialDate: Jalali.now(),
+                    firstDate: Jalali(1385, 8),
+                    lastDate: Jalali(1450, 9),
+                    initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
+                    // initialDatePickerMode: PersianDatePickerMode.year,
+                  );
+                },
+                child: const SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      children: [
+                        Icon(Icons.calendar_month),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text('تاریخ سررسید'),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: () async {
+                  var picked = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                    initialEntryMode: TimePickerEntryMode.input,
+                    builder: (BuildContext context, Widget? child) {
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(alwaysUse24HourFormat: true),
+                          child: child!,
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: const SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      children: [
+                        Icon(Icons.timer_outlined),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text('زمان سررسید')
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
             ],
           ),
         ),
@@ -254,5 +347,27 @@ class _PriorityWidgetState extends State<PriorityWidget> {
       widget.prioritysState[Priority.normal] = false;
     }
     widget.prioritysStateChange(widget.prioritysState);
+  }
+}
+
+class DatePickers extends StatelessWidget {
+  const DatePickers({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+    );
+  }
+}
+
+class TimePickers extends StatelessWidget {
+  const TimePickers({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.blue,
+    );
   }
 }

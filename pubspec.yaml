@@ -22,7 +22,13 @@ dependencies:
   flutter_native_splash: ^2.4.4
   flutter_svg: ^2.0.17
   flutter_launcher_icons: ^0.14.3
-
+  mockito: ^5.4.4
+  provider: ^6.1.2
+  flutter_bloc: ^9.0.0
+  sqflite: ^2.4.1
+  persian_datetime_picker:
+    path: persian-datetime-picker
+  shamsi_date: ^1.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

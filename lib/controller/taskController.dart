@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mdata_base/model/model.dart';
@@ -7,6 +8,7 @@ class TaskController {
   late Box<Task> _taskBox;
 
   Future<void> initHiveDb(String dbName) async {
+    WidgetsFlutterBinding.ensureInitialized();
     await Hive.initFlutter();
     Hive.registerAdapter(TaskAdapter());
     Hive.registerAdapter(PriorityAdapter());
@@ -34,6 +36,7 @@ class TaskController {
     // ]);
   }
 
+//read and update with index
   Future<void> toggleTask(int index, Task task) async {
     Task? taskOld = _taskBox.getAt(index);
     if (taskOld != null) {
@@ -41,16 +44,19 @@ class TaskController {
     }
   }
 
-  Future<void> deleteTask(int index) async {
+//delete
+  Future<void> deleteTaskByIndex(int index) async {
     if (_taskBox.getAt(index) != null) {
       _taskBox.deleteAt(index);
     }
   }
 
+//delete
   Future<void> deleteAllTask() async {
     await _taskBox.clear();
   }
 
+//read and update with id or key
   Future<void> toggleTaskById(String id, Task task) async {
     Task? taskOld = _taskBox.get(id);
     if (taskOld != null) {
@@ -58,17 +64,20 @@ class TaskController {
     }
   }
 
+//read and delete
   Future<void> deleteTaskById(String id) async {
     if (_taskBox.get(id) != null) {
       _taskBox.delete(id);
     }
   }
 
+//update
   Future<void> addTask(Task task) async {
     _taskBox.add(task);
   }
 
-  Task? getTask(int index) {
+//read
+  Task? getTaskByIndex(int index) {
     return _taskBox.getAt(index);
   }
 

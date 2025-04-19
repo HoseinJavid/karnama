@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:mdata_base/bloc/task_bloc.dart';
 import 'package:mdata_base/controller/taskController.dart';
 import 'package:mdata_base/model/model.dart';
+import 'package:mdata_base/source/repository_injection.dart';
 import 'package:mdata_base/widgets/buttomSheet.dart';
 
 class TaskItem extends StatefulWidget {
@@ -11,12 +14,12 @@ class TaskItem extends StatefulWidget {
       required this.themeData,
       required this.task,
       required this.index,
-      required this.controller});
+      required this.repository});
 
   final ThemeData themeData;
   final Task task;
   final int index;
-  final TaskController controller;
+  final Repository<Task> repository;
   @override
   State<TaskItem> createState() => _TaskItemState();
 }
@@ -31,6 +34,7 @@ class _TaskItemState extends State<TaskItem> {
   // bool checkBox = true;
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<TaskBloc>(context);
     return Column(
       children: [
         Stack(
@@ -79,13 +83,8 @@ class _TaskItemState extends State<TaskItem> {
                     maxLines: 1,
                     style: widget.themeData.textTheme.bodyMedium!.copyWith(
                         height: 2,
-                        // backgroundColor:
-                        //     widget.taskBox.getAt(widget.index)!.isCompleted
-                        //         ? widget.themeData.colorScheme.primary
-                        //             .withOpacity(0.05)
-                        //         : null,
                         decoration:
-                            widget.controller.getTask(widget.index)!.isCompleted
+                            widget.task.isCompleted
                                 ? TextDecoration.lineThrough
                                 : null),
                   )),
@@ -101,12 +100,12 @@ class _TaskItemState extends State<TaskItem> {
               child: InkWell(
                 onLongPress: () {
                   CustomButtomSheet.showCustomModalBottomSheet(
-                      context, widget.index, widget.controller);
+                      context, widget.task, widget.repository);
                 },
                 onTap: () {
                   // setState(() {
                   //   ischecked = ! ischecked;
-                  update_isComplate_dbTask();
+                  update_isComplate_dbTask(bloc);
                   // });
                 },
                 splashColor:
@@ -125,10 +124,11 @@ class _TaskItemState extends State<TaskItem> {
     );
   }
 
-  void update_isComplate_dbTask() {
+  void update_isComplate_dbTask(Bloc bloc) {
     //update auto ui after db
     widget.task.isCompleted = !widget.task.isCompleted;
     //update db
-    widget.controller.toggleTask(widget.index, widget.task);
+    bloc.add(TasksUpdate(widget.task));
+    // widget.repository.toggleTask(widget.index, widget.task);
   }
 }
