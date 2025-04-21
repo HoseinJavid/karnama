@@ -20,5 +20,6 @@
     "deleteTaskCaption": "Do you want to delete task?",
     "dueDate": "Due date",
     "dueTime": "Due time",
-    "deleteTaskBtm": "Delete Task"
+    "deleteTaskBtm": "Delete Task",
+    "textWelcome":"Welcome to Karnama, buddy!"
 }

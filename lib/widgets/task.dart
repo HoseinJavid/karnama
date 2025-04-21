@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todolist/bloc/task_bloc.dart';
-import 'package:todolist/model/model.dart';
-import 'package:todolist/source/repository_injection.dart';
-import 'package:todolist/widgets/buttomSheet.dart';
+import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/model/model.dart';
+import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/widgets/buttomSheet.dart';
 
 class TaskItem extends StatefulWidget {
   const TaskItem(

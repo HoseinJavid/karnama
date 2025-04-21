@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todolist/bloc/task_bloc.dart';
+import 'package:karnama/bloc/task_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:todolist/model/model.dart';
-import 'package:todolist/source/repository_injection.dart';
-import 'package:todolist/view/editTask.dart';
-import 'package:todolist/widgets/task.dart';
+import 'package:karnama/model/model.dart';
+import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/view/editTask.dart';
+import 'package:karnama/widgets/task.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

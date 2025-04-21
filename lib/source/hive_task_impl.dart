@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:todolist/model/model.dart';
-import 'package:todolist/source/source_abs.dart';
+import 'package:karnama/model/model.dart';
+import 'package:karnama/source/source_abs.dart';
 
 //Data layer
 class HiveTaskImpl implements DataSource<Task> {

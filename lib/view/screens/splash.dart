@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:todolist/view/screens/home.dart';
+import 'package:karnama/view/screens/home.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,8 +15,8 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   @override
   void initState() {
-   _animationController= AnimationController(vsync: this);
-   _animationController.addStatusListener(
+    _animationController = AnimationController(vsync: this);
+    _animationController.addStatusListener(
       (status) {
         if (status == AnimationStatus.completed) {
           Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -32,21 +33,21 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       // backgroundColor: Colors.blue,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset('assets/animation/splash/animation.json',
-                controller: _animationController,
-                onLoaded: (p0) {
-                  _animationController.duration = p0.duration;
-                  _animationController.forward();
-                },
-                width: 500, height: 500, fit: BoxFit.contain),
-            Text('به کارنما خوش اومدی جیگر',style: TextStyle(fontSize: 28),)
-          ],
-        )
-      ),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset('assets/animation/splash/animation.json',
+              controller: _animationController, onLoaded: (p0) {
+            _animationController.duration = p0.duration;
+            _animationController.forward();
+          }, width: 500, height: 500, fit: BoxFit.contain),
+          Text(
+            AppLocalizations.of(context)!.textWelcome,
+            style: const TextStyle(fontSize: 28),
+          )
+        ],
+      )),
     );
   }
 }

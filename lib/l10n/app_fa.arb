@@ -20,5 +20,6 @@
     "deleteTaskCaption": "آیا مطمعنی که میخوای کارنما رو پاک کنی؟",
     "dueDate": "تاریخ سررسید",
     "dueTime": "زمان سررسید",
-    "deleteTaskBtm": "حذف کارنما"
+    "deleteTaskBtm": "حذف کارنما",
+    "textWelcome":"به کارنما خوش آمدی جیگر"
 }

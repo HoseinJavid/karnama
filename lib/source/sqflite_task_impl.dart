@@ -1,7 +1,5 @@
-import 'package:todolist/model/model.dart';
-import 'package:todolist/source/source_abs.dart';
-import 'package:todolist/model/model.dart';
-import 'package:todolist/source/source_abs.dart';
+import 'package:karnama/model/model.dart';
+import 'package:karnama/source/source_abs.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

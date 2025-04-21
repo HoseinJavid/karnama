@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todolist/bloc/task_bloc.dart';
-import 'package:todolist/model/model.dart';
+import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/model/model.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todolist/source/hive_task_impl.dart';
-import 'package:todolist/source/repository_injection.dart';
-import 'package:todolist/util.dart';
-import 'package:todolist/view/screens/splash.dart';
+import 'package:karnama/source/hive_task_impl.dart';
+import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/util.dart';
+import 'package:karnama/view/screens/splash.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:provider/provider.dart';
@@ -33,9 +33,9 @@ class Myapp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Locale localeSystem = const Locale('fa', 'IR');
+    // Locale localeSystem = const Locale('fa', 'IR');
     // Locale localeSystem =         const Locale("en", "US");
-    // Locale localeSystem = View.of(context).platformDispatcher.locale;
+    Locale localeSystem = View.of(context).platformDispatcher.locale;
     String iranYekan = 'iranYekan';
     return MaterialApp(
       locale: localeSystem,

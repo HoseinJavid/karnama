@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todolist/model/model.dart';
+import 'package:karnama/model/model.dart';
 
 class TaskController {
   late Box<Task> _taskBox;
