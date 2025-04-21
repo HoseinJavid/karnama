@@ -1,14 +1,10 @@
-import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mdata_base/bloc/task_bloc.dart';
-import 'package:mdata_base/controller/taskController.dart';
-import 'package:mdata_base/model/model.dart';
-import 'package:mdata_base/source/repository_injection.dart';
+import 'package:todolist/bloc/task_bloc.dart';
+import 'package:todolist/model/model.dart';
+import 'package:todolist/source/repository_injection.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class EdittaskScreen extends StatefulWidget {
@@ -43,7 +39,6 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
   @override
   Widget build(BuildContext context) {
     TaskBloc bloc = BlocProvider.of<TaskBloc>(context);
-
     AppLocalizations? appLocalizations = AppLocalizations.of(context);
     ThemeData themeData = Theme.of(context);
     return SafeArea(
@@ -101,10 +96,11 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                         child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50)),
-                            child: Localizations.localeOf(context) ==
-                                    const Locale('en')
-                                ? const Icon(CupertinoIcons.arrow_left)
-                                : const Icon(CupertinoIcons.arrow_right)),
+                            child:
+                                Localizations.localeOf(context).languageCode ==
+                                        'en'
+                                    ? const Icon(CupertinoIcons.arrow_left)
+                                    : const Icon(CupertinoIcons.arrow_right)),
                       ),
                     ),
                     const SizedBox(
@@ -197,7 +193,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     // initialDatePickerMode: PersianDatePickerMode.year,
                   );
                 },
-                child: const SizedBox(
+                child: SizedBox(
                   height: 64,
                   width: double.infinity,
                   child: Padding(
@@ -208,7 +204,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                         SizedBox(
                           width: 8,
                         ),
-                        Text('تاریخ سررسید'),
+                        Text(appLocalizations.dueDate),
                       ],
                     ),
                   ),
@@ -236,7 +232,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     },
                   );
                 },
-                child: const SizedBox(
+                child: SizedBox(
                   height: 64,
                   width: double.infinity,
                   child: Padding(
@@ -247,7 +243,87 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                         SizedBox(
                           width: 8,
                         ),
-                        Text('زمان سررسید')
+                        Text(appLocalizations.dueTime)
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: widget.task != null
+                    ? () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                appLocalizations.deleteTasks,
+                                style: themeData.textTheme.titleLarge,
+                              ),
+                              content: Text(
+                                appLocalizations.deleteTaskCaption,
+                                style: themeData.textTheme.bodyLarge,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    appLocalizations.no,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    bloc.add(TasksDelete(widget.task!));
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    appLocalizations.yes,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    : null,
+                child: SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.delete_outlined,
+                          color: widget.task != null
+                              ? Colors.red
+                              : Colors.grey[400],
+                          size: 26,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(appLocalizations.deleteTaskBtm,
+                            style: TextStyle(
+                              color: widget.task != null
+                                  ? Colors.red
+                                  : Colors.grey[400],
+                            )),
                       ],
                     ),
                   ),

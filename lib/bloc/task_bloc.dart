@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:mdata_base/model/model.dart';
-import 'package:mdata_base/source/repository_injection.dart';
+import 'package:todolist/model/model.dart';
+import 'package:todolist/source/repository_injection.dart';
 import 'package:meta/meta.dart';
 
 part 'task_event.dart';

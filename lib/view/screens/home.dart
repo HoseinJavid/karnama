@@ -1,15 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mdata_base/bloc/task_bloc.dart';
-import 'package:mdata_base/controller/taskController.dart';
+import 'package:todolist/bloc/task_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mdata_base/model/model.dart';
-import 'package:mdata_base/source/repository_injection.dart';
-import 'package:mdata_base/view/editTask.dart';
-import 'package:mdata_base/widgets/task.dart';
+import 'package:todolist/model/model.dart';
+import 'package:todolist/source/repository_injection.dart';
+import 'package:todolist/view/editTask.dart';
+import 'package:todolist/widgets/task.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -166,11 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 builder: (context) {
                                                   return AlertDialog(
                                                     title: Text(
-                                                      appLocalizations.deleteTasks,
+                                                      appLocalizations.deleteAllTasks,
                                                       style: themeData.textTheme.titleLarge,
                                                     ),
                                                     content: Text(
-                                                      appLocalizations.deleteTaskCaption,
+                                                      appLocalizations.deleteAllTaskCaption,
                                                       style: themeData.textTheme.bodyLarge,
                                                     ),
                                                     actions: [

@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:mdata_base/bloc/task_bloc.dart';
-import 'package:mdata_base/controller/taskController.dart';
-import 'package:mdata_base/model/model.dart';
-import 'package:mdata_base/source/repository_injection.dart';
-import 'package:mdata_base/view/editTask.dart';
+import 'package:todolist/bloc/task_bloc.dart';
+import 'package:todolist/model/model.dart';
+import 'package:todolist/source/repository_injection.dart';
+import 'package:todolist/view/editTask.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CustomButtomSheet extends StatelessWidget {

@@ -9,11 +9,16 @@
     "normal": "معمولی",
     "low": "کم",
     "saveChanges": "ذخیره تغییرات",
-    "deleteTasks": "پاک کردن کارنماها",
-    "deleteTaskCaption": "آیا مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟",
+    "deleteAllTasks": "پاک کردن همه کارنماها",
+    "deleteAllTaskCaption": "آیا مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟",
     "yes": "آره",
     "no": "نه",
-    "addATaskForToday":"کارنماتو همین جااضافه کن ...",
+    "addATaskForToday": "کارنماتو همین جااضافه کن ...",
     "edit": "ویرایش",
-    "delete": "حذف"
+    "delete": "حذف",
+    "deleteTasks": "پاک کردن کارنما",
+    "deleteTaskCaption": "آیا مطمعنی که میخوای کارنما رو پاک کنی؟",
+    "dueDate": "تاریخ سررسید",
+    "dueTime": "زمان سررسید",
+    "deleteTaskBtm": "حذف کارنما"
 }

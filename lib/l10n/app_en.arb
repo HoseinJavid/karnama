@@ -9,11 +9,16 @@
     "normal": "normal",
     "low": "low",
     "saveChanges": "Save Changes",
-    "deleteTasks": "Delete Tasks",
-    "deleteTaskCaption": "Do you want to delete all tasks?",
+    "deleteAllTasks": "Delete Tasks",
+    "deleteAllTaskCaption": "Do you want to delete all tasks?",
     "yes": "Yes",
     "no": "No",
-    "addATaskForToday":"add a task for today ...",
+    "addATaskForToday": "add a task for today ...",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "deleteTasks": "Delete Task",
+    "deleteTaskCaption": "Do you want to delete task?",
+    "dueDate": "Due date",
+    "dueTime": "Due time",
+    "deleteTaskBtm": "Delete Task"
 }
