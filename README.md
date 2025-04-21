@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # mdata_base
 
 A new Flutter project.
@@ -14,3 +15,7 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+=======
+# karnama
+to do list (karnama)
+>>>>>>> bea8f4744dfeed199c0fdfdc9f9551c1b52927ca
