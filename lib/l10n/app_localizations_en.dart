@@ -1,0 +1,83 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get toDoList => 'To Do List';
+
+  @override
+  String get searchTask => 'search task...';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get deleteAll => 'Delete All';
+
+  @override
+  String get addNewTask => 'Add new Task';
+
+  @override
+  String get editTask => 'Edit Task';
+
+  @override
+  String get high => 'high';
+
+  @override
+  String get normal => 'normal';
+
+  @override
+  String get low => 'low';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get deleteAllTasks => 'Delete Tasks';
+
+  @override
+  String get deleteAllTaskCaption => 'Do you want to delete all tasks?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get addATaskForToday => 'add a task for today ...';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get deleteTasks => 'Delete Task';
+
+  @override
+  String get deleteTaskCaption => 'Do you want to delete task?';
+
+  @override
+  String get dueDate => 'Due date';
+
+  @override
+  String get dueTime => 'Due time';
+
+  @override
+  String get deleteTaskBtm => 'Delete Task';
+
+  @override
+  String get textWelcome => 'Welcome to Karnama, buddy!';
+
+  @override
+  String get warningEmptyTitle =>
+      'Title cannot be empty Please write something';
+}

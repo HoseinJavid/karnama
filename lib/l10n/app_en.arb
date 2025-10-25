@@ -21,5 +21,6 @@
     "dueDate": "Due date",
     "dueTime": "Due time",
     "deleteTaskBtm": "Delete Task",
-    "textWelcome":"Welcome to Karnama, buddy!"
+    "textWelcome":"Welcome to Karnama, buddy!",
+    "warningEmptyTitle":"Title cannot be empty Please write something"
 }

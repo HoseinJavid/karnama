@@ -21,5 +21,6 @@
     "dueDate": "تاریخ سررسید",
     "dueTime": "زمان سررسید",
     "deleteTaskBtm": "حذف کارنما",
-    "textWelcome":"به کارنما خوش آمدی جیگر"
+    "textWelcome":"به کارنما خوش آمدی جیگر",
+    "warningEmptyTitle":"عنوان نمیتونه خالی باشه چیزی بنویس"
 }

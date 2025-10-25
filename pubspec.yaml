@@ -26,9 +26,11 @@ dependencies:
   provider: ^6.1.2
   flutter_bloc: ^9.0.0
   sqflite: ^2.4.1
-  persian_datetime_picker:
-    path: persian-datetime-picker
+  persian_datetime_picker: ^3.1.0
   shamsi_date: ^1.0.4
+  flutter_local_notifications: ^19.5.0
+
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -77,15 +79,15 @@ flutter:
   #     - fa
 
 flutter_native_splash:
-  color: "#ffffff" # رنگ پس‌زمینه صفحه اسپلش
-  image: assets/img/splash/splash.png # مسیر تصویر لوگو
-  android: true # فعال کردن اسپلش برای اندروید
-  ios: true # فعال کردن اسپلش برای iOS
+  color: "#ffffff" 
+  image: assets/img/splash/splash.png 
+  android: true 
+  ios: true
   android_12:
-    icon_background_color: "#ffffff" # رنگ پس‌زمینه لوگو در اندروید 12
-    image: assets/img/splash/splash.png # مسیر تصویر لوگو در اندروید 12
+    icon_background_color: "#ffffff"
+    image: assets/img/splash/splash.png
 
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/img/icon/icon.png" # مسیر آیکون
+  image_path: "assets/img/icon/icon.png"

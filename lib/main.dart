@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:karnama/bloc/task_bloc.dart';
-import 'package:karnama/model/model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/l10n/app_localizations.dart';
+import 'package:karnama/model/model.dart';
 import 'package:karnama/source/hive_task_impl.dart';
 import 'package:karnama/source/repository_injection.dart';
 import 'package:karnama/util.dart';
 import 'package:karnama/view/screens/splash.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:provider/provider.dart';
 

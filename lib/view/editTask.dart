@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
 import 'package:karnama/source/repository_injection.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -23,7 +23,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
     Priority.low: false,
     Priority.normal: false
   };
-  var textController;
+  late TextEditingController textController;
 
   @override
   void initState() {
@@ -58,11 +58,19 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                 widget.task!.priority = prioritySelected;
                 bloc.add(TasksUpdate(widget.task!));
               } else {
-                bloc.add(TasksCreate(Task(
-                    name: textController.text, priority: prioritySelected)));
+                if (textController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(appLocalizations.warningEmptyTitle),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(milliseconds: 3000),
+                  ));
+                } else {
+                  bloc.add(TasksCreate(Task(
+                      name: textController.text, priority: prioritySelected)));
+                  Navigator.of(context).pop();
+                  FocusScope.of(context).unfocus();
+                }
               }
-              Navigator.of(context).pop();
-              FocusScope.of(context).unfocus();
             },
             label: Row(
               children: [

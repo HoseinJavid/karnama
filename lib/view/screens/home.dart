@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:karnama/l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
 import 'package:karnama/bloc/task_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
 import 'package:karnama/source/repository_injection.dart';
 import 'package:karnama/view/editTask.dart';
@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String querySearch = '';
+  var scaffoldState = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -34,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return SafeArea(
       child: Scaffold(
+        key: scaffoldState,
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
@@ -74,10 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Icon(
-                          CupertinoIcons.share,
+                        IconButton(onPressed: () {
+                          scaffoldState.currentState!.openDrawer();
+                        }, icon: Icon(
+                          CupertinoIcons.list_bullet,
                           color: themeData.colorScheme.onPrimary,
-                        ),
+                        )),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -260,6 +264,53 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+        drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Header',
+              ),
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Item 1'),
+              onTap: () {
+                
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.delete),
+              title: Text('Item 2'),
+            ),
+            ListTile(
+              leading: Icon(Icons.label),
+              title: Text('Item 3'),
+            ),
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Label',
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.bookmark),
+              title: Text('Item A'),
+            ),
+          ],
+        ),
+      ),
       ),
     );
   }
