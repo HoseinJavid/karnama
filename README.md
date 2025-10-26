@@ -14,8 +14,8 @@
 - Offline support
 
 ## Preview
-![demo](https://github.com/HoseinJavid/my-calculator/blob/main/demo/demo-fa.gif)
-![demo](https://github.com/HoseinJavid/my-calculator/blob/main/demo/demo-en.gif)
+![demo](https://github.com/HoseinJavid/karnama/blob/main/demo/demo-fa.gif)
+![demo](https://github.com/HoseinJavid/karnama/blob/main/demo/demo-en.gif)
 
 
 ## How to Use
