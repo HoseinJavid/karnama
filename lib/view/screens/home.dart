@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:lottie/lottie.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String querySearch = '';
   var scaffoldState = GlobalKey<ScaffoldState>();
+  int _selectedDestination = 0;
 
   @override
   void initState() {
@@ -29,11 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Repository<Task> repository = Provider.of<Repository<Task>>(context, listen: false);
+    Repository<Task> repository =
+        Provider.of<Repository<Task>>(context, listen: false);
     ThemeData themeData = Theme.of(context);
     AppLocalizations? appLocalizations = AppLocalizations.of(context);
 
-    return SafeArea(
+    return AnnotatedRegion(
+      value: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.light),
       child: Scaffold(
         key: scaffoldState,
         floatingActionButton: FloatingActionButton.extended(
@@ -63,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
+                padding: const EdgeInsets.fromLTRB(8, 64, 8, 8),
                 child: Column(
                   children: [
                     Row(
@@ -76,12 +82,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        IconButton(onPressed: () {
-                          scaffoldState.currentState!.openDrawer();
-                        }, icon: Icon(
-                          CupertinoIcons.list_bullet,
-                          color: themeData.colorScheme.onPrimary,
-                        )),
+                        IconButton(
+                            onPressed: () {
+                              scaffoldState.currentState!.openEndDrawer();
+                            },
+                            icon: Icon(
+                              CupertinoIcons.list_bullet,
+                              color: themeData.colorScheme.onPrimary,
+                            )),
                       ],
                     ),
                     const SizedBox(height: 12),
@@ -119,9 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     );
                   } else if (state is TasksSuccess) {
-                    List<Task> tasks = state.tasks.where(
-                      (task) => task.name.toLowerCase().contains(querySearch.toLowerCase()),
-                    ).toList();
+                    List<Task> tasks = state.tasks
+                        .where(
+                          (task) => task.name
+                              .toLowerCase()
+                              .contains(querySearch.toLowerCase()),
+                        )
+                        .toList();
 
                     return CustomScrollView(
                       physics: const BouncingScrollPhysics(),
@@ -135,18 +147,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   children: [
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             appLocalizations!.today,
-                                            style: themeData.textTheme.titleMedium!.copyWith(
+                                            style: themeData
+                                                .textTheme.titleMedium!
+                                                .copyWith(
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           Container(
                                             height: 3,
                                             width: 50,
-                                            color: themeData.colorScheme.primary,
+                                            color:
+                                                themeData.colorScheme.primary,
                                           ),
                                         ],
                                       ),
@@ -159,8 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Material(
                                         color: Colors.transparent,
                                         child: InkWell(
-                                          splashColor: themeData.colorScheme.primary.withOpacity(0.08),
-                                          highlightColor: themeData.colorScheme.primary.withOpacity(0.08),
+                                          splashColor: themeData
+                                              .colorScheme.primary
+                                              .withOpacity(0.08),
+                                          highlightColor: themeData
+                                              .colorScheme.primary
+                                              .withOpacity(0.08),
                                           onTap: () {
                                             if (tasks.isNotEmpty) {
                                               showDialog(
@@ -168,35 +188,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 builder: (context) {
                                                   return AlertDialog(
                                                     title: Text(
-                                                      appLocalizations.deleteAllTasks,
-                                                      style: themeData.textTheme.titleLarge,
+                                                      appLocalizations
+                                                          .deleteAllTasks,
+                                                      style: themeData
+                                                          .textTheme.titleLarge,
                                                     ),
                                                     content: Text(
-                                                      appLocalizations.deleteAllTaskCaption,
-                                                      style: themeData.textTheme.bodyLarge,
+                                                      appLocalizations
+                                                          .deleteAllTaskCaption,
+                                                      style: themeData
+                                                          .textTheme.bodyLarge,
                                                     ),
                                                     actions: [
                                                       TextButton(
                                                         onPressed: () {
-                                                          Navigator.of(context).pop();
+                                                          Navigator.of(context)
+                                                              .pop();
                                                         },
                                                         child: Text(
                                                           appLocalizations.no,
-                                                          style: const TextStyle(
-                                                            fontWeight: FontWeight.w800,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w800,
                                                             fontSize: 18,
                                                           ),
                                                         ),
                                                       ),
                                                       TextButton(
                                                         onPressed: () {
-                                                          context.read<TaskBloc>().add(TasksDeleteAll());
-                                                          Navigator.of(context).pop();
+                                                          context
+                                                              .read<TaskBloc>()
+                                                              .add(
+                                                                  TasksDeleteAll());
+                                                          Navigator.of(context)
+                                                              .pop();
                                                         },
                                                         child: Text(
                                                           appLocalizations.yes,
-                                                          style: const TextStyle(
-                                                            fontWeight: FontWeight.w800,
+                                                          style:
+                                                              const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w800,
                                                             fontSize: 18,
                                                           ),
                                                         ),
@@ -208,22 +241,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                             }
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 4, 8, 4),
                                             child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Text(
                                                   appLocalizations.deleteAll,
                                                   style: TextStyle(
-                                                    color: themeData.colorScheme.onSurface.withOpacity(0.3),
+                                                    color: themeData
+                                                        .colorScheme.onSurface
+                                                        .withOpacity(0.3),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 4),
                                                 Icon(
                                                   Icons.delete,
                                                   size: 20,
-                                                  color: themeData.colorScheme.onSurface.withOpacity(0.3),
+                                                  color: themeData
+                                                      .colorScheme.onSurface
+                                                      .withOpacity(0.3),
                                                 ),
                                               ],
                                             ),
@@ -242,7 +282,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 0, 16, 0),
                                 child: TaskItem(
                                   themeData: themeData,
                                   task: tasks[index],
@@ -264,54 +305,78 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Header',
+        endDrawer: Drawer(
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Color(0xffc5b7f3), Color(0xffafe0ee)])),
+                height: 250,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'karnama',
+                      style: TextStyle(color: Colors.white,fontSize: 32),
+                    ),
+                    SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: Image.asset('assets/img/icon/icon.png')),
+                  ],
+                ),
               ),
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Item 1'),
-              onTap: () {
-                
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.delete),
-              title: Text('Item 2'),
-            ),
-            ListTile(
-              leading: Icon(Icons.label),
-              title: Text('Item 3'),
-            ),
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Label',
+              Divider(
+                height: 1,
+                thickness: 0.1,
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.bookmark),
-              title: Text('Item A'),
-            ),
-          ],
+              ListTile(
+                leading: Icon(Icons.favorite),
+                title: Text('ازماحمایت کنید'),
+                selected: _selectedDestination == 0,
+                onTap: () => selectDestination(0),
+              ),
+              ListTile(
+                leading: Icon(Icons.format_paint),
+                title: Text('تم'),
+                selected: _selectedDestination == 1,
+                onTap: () => selectDestination(1),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('تنظیمات'),
+                selected: _selectedDestination == 2,
+                onTap: () => selectDestination(2),
+              ),
+              // Divider(
+              //   height: 1,
+              //   thickness: 0.1,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(16.0),
+              //   child: Text(
+              //     'Label',
+              //   ),
+              // ),
+              ListTile(
+                leading: Icon(Icons.question_answer_rounded),
+                title: Text('سوالات رایج'),
+                selected: _selectedDestination == 3,
+                onTap: () => selectDestination(3),
+              ),
+            ],
+          ),
         ),
       ),
-      ),
     );
+  }
+
+  void selectDestination(int index) {
+    setState(() {
+      _selectedDestination = index;
+    });
   }
 }

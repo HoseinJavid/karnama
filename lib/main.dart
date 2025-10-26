@@ -23,8 +23,17 @@ void main(List<String> args) async {
             repository: Provider.of<Repository<Task>>(context, listen: false)),
         child: const Myapp()),
   ));
+
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Color(0xff6233FF)));
+    const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ),
+  );
 }
 
 class Myapp extends StatelessWidget {
