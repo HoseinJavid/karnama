@@ -241,6 +241,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title cannot be empty Please write something'**
   String get warningEmptyTitle;
+
+  /// Text for a button or link to support the developers.
+  ///
+  /// In en, this message translates to:
+  /// **'Support us'**
+  String get supportUs;
+
+  /// Label for the application theme selection.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// Title for the Frequently Asked Questions section.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQs'**
+  String get faqs;
+
+  /// Label for submitting feedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
+
+  /// Title for the application settings page.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Primary prompt text asking the user to rate the app 5 stars.
+  ///
+  /// In en, this message translates to:
+  /// **'If you enjoy our app, please give us a 5-star rating.'**
+  String get ratingPromptPrimary;
+
+  /// Secondary prompt text explaining the development effort.
+  ///
+  /// In en, this message translates to:
+  /// **'We are working hard to provide a better user experience.'**
+  String get ratingPromptSecondary;
+
+  /// Text for the 'Later' button.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get buttonLater;
+
+  /// Text for the 'Rate' button.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get buttonRate;
+
+  /// Thank you message after rating submission, with a placeholder for the rating number.
+  ///
+  /// In en, this message translates to:
+  /// **'You gave a {rating} star rating. Thank you!'**
+  String ratingThankYouMessage(int rating);
 }
 
 class _AppLocalizationsDelegate

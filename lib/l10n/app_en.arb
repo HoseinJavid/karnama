@@ -21,6 +21,53 @@
     "dueDate": "Due date",
     "dueTime": "Due time",
     "deleteTaskBtm": "Delete Task",
-    "textWelcome":"Welcome to Karnama, buddy!",
-    "warningEmptyTitle":"Title cannot be empty Please write something"
+    "textWelcome": "Welcome to Karnama, buddy!",
+    "warningEmptyTitle": "Title cannot be empty Please write something",
+    "supportUs": "Support us",
+    "@supportUs": {
+        "description": "Text for a button or link to support the developers."
+    },
+    "theme": "Theme",
+    "@theme": {
+        "description": "Label for the application theme selection."
+    },
+    "faqs": "FAQs",
+    "@faqs": {
+        "description": "Title for the Frequently Asked Questions section."
+    },
+    "feedback": "Feedback",
+    "@feedback": {
+        "description": "Label for submitting feedback."
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Title for the application settings page."
+    },
+    "@@locale": "en",
+    "ratingPromptPrimary": "If you enjoy our app, please give us a 5-star rating.",
+    "@ratingPromptPrimary": {
+        "description": "Primary prompt text asking the user to rate the app 5 stars."
+    },
+    "ratingPromptSecondary": "We are working hard to provide a better user experience.",
+    "@ratingPromptSecondary": {
+        "description": "Secondary prompt text explaining the development effort."
+    },
+    "buttonLater": "Later",
+    "@buttonLater": {
+        "description": "Text for the 'Later' button."
+    },
+    "buttonRate": "Rate",
+    "@buttonRate": {
+        "description": "Text for the 'Rate' button."
+    },
+    "ratingThankYouMessage": "You gave a {rating} star rating. Thank you!",
+    "@ratingThankYouMessage": {
+        "description": "Thank you message after rating submission, with a placeholder for the rating number.",
+        "placeholders": {
+            "rating": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    }
 }

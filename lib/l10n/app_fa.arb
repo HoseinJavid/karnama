@@ -21,6 +21,53 @@
     "dueDate": "تاریخ سررسید",
     "dueTime": "زمان سررسید",
     "deleteTaskBtm": "حذف کارنما",
-    "textWelcome":"به کارنما خوش آمدی جیگر",
-    "warningEmptyTitle":"عنوان نمیتونه خالی باشه چیزی بنویس"
+    "textWelcome": "به کارنما خوش آمدی جیگر",
+    "warningEmptyTitle": "عنوان نمیتونه خالی باشه چیزی بنویس",
+    "supportUs": "از ما حمایت کنید",
+    "@supportUs": {
+        "description": "Text for a button or link to support the developers."
+    },
+    "theme": "تم",
+    "@theme": {
+        "description": "Label for the application theme selection."
+    },
+    "faqs": "سوالات رایج",
+    "@faqs": {
+        "description": "Title for the Frequently Asked Questions section."
+    },
+    "feedback": "بازخورد",
+    "@feedback": {
+        "description": "Label for submitting feedback."
+    },
+    "settings": "تنظیمات",
+    "@settings": {
+        "description": "Title for the application settings page."
+    },
+    "@@locale": "fa",
+    "ratingPromptPrimary": "اگر از برنامه ما لذت می‌برید لطفا به ما ۵ ستاره امتیاز دهید.",
+    "@ratingPromptPrimary": {
+        "description": "Primary prompt text asking the user to rate the app 5 stars."
+    },
+    "ratingPromptSecondary": "ما سخت در تلاش هستیم تا تجربه کاربری بهتری را ارائه دهیم.",
+    "@ratingPromptSecondary": {
+        "description": "Secondary prompt text explaining the development effort."
+    },
+    "buttonLater": "بعداً",
+    "@buttonLater": {
+        "description": "Text for the 'Later' button."
+    },
+    "buttonRate": "امتیاز دهید",
+    "@buttonRate": {
+        "description": "Text for the 'Rate' button."
+    },
+    "ratingThankYouMessage": "شما {rating} ستاره امتیاز دادید. ممنون!",
+    "@ratingThankYouMessage": {
+        "description": "Thank you message after rating submission, with a placeholder for the rating number.",
+        "placeholders": {
+            "rating": {
+                "type": "int",
+                "example": "5"
+            }
+        }
+    }
 }

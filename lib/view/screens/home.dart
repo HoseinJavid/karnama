@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String querySearch = '';
   var scaffoldState = GlobalKey<ScaffoldState>();
-  int _selectedDestination = 0;
 
   @override
   void initState() {
@@ -69,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 64, 8, 8),
+                padding: const EdgeInsets.fromLTRB(16, 64, 16, 8),
                 child: Column(
                   children: [
                     Row(
@@ -85,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                             onPressed: () {
                               scaffoldState.currentState!.openEndDrawer();
+                              // scaffoldState.currentState!.openDrawer();
                             },
                             icon: Icon(
                               CupertinoIcons.list_bullet,
@@ -305,71 +305,109 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        endDrawer: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Color(0xffc5b7f3), Color(0xffafe0ee)])),
-                height: 250,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'karnama',
-                      style: TextStyle(color: Colors.white,fontSize: 32),
-                    ),
-                    SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: Image.asset('assets/img/icon/icon.png')),
-                  ],
+        endDrawer: const McwDrawer(),
+        // drawer: const McwDrawer(),
+      ),
+    );
+  }
+}
+
+class McwDrawer extends StatefulWidget {
+  const McwDrawer({
+    super.key,
+  });
+
+  @override
+  State<McwDrawer> createState() => _McwDrawerState();
+}
+
+class _McwDrawerState extends State<McwDrawer> {
+  int _selectedDestination = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Color(0xffc5b7f3), Color(0xffafe0ee)])),
+            height: 250,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(width: 24),
+                Expanded(
+                  child: Text(
+                    appLocalizations!.toDoList,
+                    style: const TextStyle(color: Colors.white, fontSize: 28),
+                  ),
                 ),
-              ),
-              Divider(
-                height: 1,
-                thickness: 0.1,
-              ),
-              ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text('ازماحمایت کنید'),
-                selected: _selectedDestination == 0,
-                onTap: () => selectDestination(0),
-              ),
-              ListTile(
-                leading: Icon(Icons.format_paint),
-                title: Text('تم'),
-                selected: _selectedDestination == 1,
-                onTap: () => selectDestination(1),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('تنظیمات'),
-                selected: _selectedDestination == 2,
-                onTap: () => selectDestination(2),
-              ),
-              // Divider(
-              //   height: 1,
-              //   thickness: 0.1,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: Text(
-              //     'Label',
-              //   ),
-              // ),
-              ListTile(
-                leading: Icon(Icons.question_answer_rounded),
-                title: Text('سوالات رایج'),
-                selected: _selectedDestination == 3,
-                onTap: () => selectDestination(3),
-              ),
-            ],
+                SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Image.asset('assets/img/icon/icon.png')),
+              ],
+            ),
           ),
-        ),
+          ListTile(
+            leading: const Icon(Icons.favorite),
+            title: Text(appLocalizations!.supportUs),
+            selected: _selectedDestination == 0,
+            onTap: () {
+              selectDestination(0);
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) => const Dialog(
+                  backgroundColor: Colors.transparent,
+                  insetPadding: EdgeInsets.all(0),
+                  child: RatingDialog(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.format_paint),
+            title: Text(appLocalizations.theme),
+            selected: _selectedDestination == 1,
+            onTap: () {
+              Navigator.pop(context);
+              selectDestination(1);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.question_answer_rounded),
+            title: Text(appLocalizations.faqs),
+            selected: _selectedDestination == 2,
+            onTap: () {
+              Navigator.pop(context);
+              selectDestination(2);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.feedback),
+            title: Text(appLocalizations.feedback),
+            selected: _selectedDestination == 3,
+            onTap: () {
+              Navigator.pop(context);
+              selectDestination(3);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: Text(appLocalizations.settings),
+            selected: _selectedDestination == 4,
+            onTap: () {
+              Navigator.pop(context);
+              selectDestination(4);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -378,5 +416,98 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedDestination = index;
     });
+  }
+}
+
+class RatingDialog extends StatefulWidget {
+  const RatingDialog({super.key});
+
+  @override
+  State<RatingDialog> createState() => _RatingDialogState();
+}
+
+class _RatingDialogState extends State<RatingDialog> {
+  int _rating = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                 Text(
+                  appLocalizations!.ratingPromptPrimary,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+                 Text(
+                  appLocalizations.ratingPromptSecondary,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: List.generate(5, (index) {
+                    return IconButton(
+                      icon: Icon(
+                        index < _rating
+                            ? Icons.star_rate_rounded
+                            : Icons.star_border_rounded,
+                        size: 38,
+                        color:
+                            index < _rating ? Colors.amber : Colors.grey[700],
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _rating = index + 1;
+                        });
+                      },
+                    );
+                  }),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child:  Text(appLocalizations.buttonLater),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: _rating > 0
+                          ? () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    appLocalizations.ratingThankYouMessage(_rating),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            }
+                          : null,
+                      child:  Text(appLocalizations.buttonRate),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -41,9 +41,9 @@ class Myapp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Locale localeSystem = const Locale('fa', 'IR');
+    Locale localeSystem = const Locale('fa', 'IR');
     // Locale localeSystem =         const Locale("en", "US");
-    Locale localeSystem = View.of(context).platformDispatcher.locale;
+    // Locale localeSystem = View.of(context).platformDispatcher.locale;
     String iranYekan = 'iranYekan';
     return MaterialApp(
       locale: localeSystem,

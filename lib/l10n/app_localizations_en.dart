@@ -80,4 +80,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get warningEmptyTitle =>
       'Title cannot be empty Please write something';
+
+  @override
+  String get supportUs => 'Support us';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get faqs => 'FAQs';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get ratingPromptPrimary =>
+      'If you enjoy our app, please give us a 5-star rating.';
+
+  @override
+  String get ratingPromptSecondary =>
+      'We are working hard to provide a better user experience.';
+
+  @override
+  String get buttonLater => 'Later';
+
+  @override
+  String get buttonRate => 'Rate';
+
+  @override
+  String ratingThankYouMessage(int rating) {
+    return 'You gave a $rating star rating. Thank you!';
+  }
 }

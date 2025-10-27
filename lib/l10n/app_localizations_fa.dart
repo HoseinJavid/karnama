@@ -80,4 +80,38 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get warningEmptyTitle => 'عنوان نمیتونه خالی باشه چیزی بنویس';
+
+  @override
+  String get supportUs => 'از ما حمایت کنید';
+
+  @override
+  String get theme => 'تم';
+
+  @override
+  String get faqs => 'سوالات رایج';
+
+  @override
+  String get feedback => 'بازخورد';
+
+  @override
+  String get settings => 'تنظیمات';
+
+  @override
+  String get ratingPromptPrimary =>
+      'اگر از برنامه ما لذت می‌برید لطفا به ما ۵ ستاره امتیاز دهید.';
+
+  @override
+  String get ratingPromptSecondary =>
+      'ما سخت در تلاش هستیم تا تجربه کاربری بهتری را ارائه دهیم.';
+
+  @override
+  String get buttonLater => 'بعداً';
+
+  @override
+  String get buttonRate => 'امتیاز دهید';
+
+  @override
+  String ratingThankYouMessage(int rating) {
+    return 'شما $rating ستاره امتیاز دادید. ممنون!';
+  }
 }
