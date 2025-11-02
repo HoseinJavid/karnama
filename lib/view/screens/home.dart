@@ -491,6 +491,7 @@ class _RatingDialogState extends State<RatingDialog> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations? appLocalizations = AppLocalizations.of(context);
+    ThemeData themeData = Theme.of(context);
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -504,13 +505,18 @@ class _RatingDialogState extends State<RatingDialog> {
                 Text(
                   appLocalizations!.ratingPromptPrimary,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: themeData.colorScheme.onSurface),
                 ),
                 const SizedBox(height: 12),
                 Text(
                   appLocalizations.ratingPromptSecondary,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: themeData.colorScheme.onSurface.withAlpha(150)),
                 ),
                 const SizedBox(height: 20),
                 Row(
@@ -522,8 +528,9 @@ class _RatingDialogState extends State<RatingDialog> {
                             ? Icons.star_rate_rounded
                             : Icons.star_border_rounded,
                         size: 38,
-                        color:
-                            index < _rating ? Colors.amber : Colors.grey[700],
+                        color: index < _rating
+                            ? Colors.amber
+                            : themeData.colorScheme.primary,
                       ),
                       onPressed: () {
                         setState(() {
@@ -541,7 +548,10 @@ class _RatingDialogState extends State<RatingDialog> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(appLocalizations.buttonLater),
+                      child: Text(appLocalizations.buttonLater,
+                          style: TextStyle(
+                              color: themeData.colorScheme.onSurface
+                                  .withAlpha(100))),
                     ),
                     const SizedBox(width: 8),
                     ElevatedButton(
@@ -559,7 +569,11 @@ class _RatingDialogState extends State<RatingDialog> {
                               Navigator.of(context).pop();
                             }
                           : null,
-                      child: Text(appLocalizations.buttonRate),
+                      child: Text(
+                        appLocalizations.buttonRate,
+                        style:
+                            TextStyle(color: themeData.colorScheme.onSurface),
+                      ),
                     ),
                   ],
                 ),

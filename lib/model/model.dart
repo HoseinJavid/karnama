@@ -3,8 +3,12 @@ part 'model.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
-  Task(
-      {this.isCompleted = false, this.name = '', this.priority = Priority.low});
+  Task({
+    this.isCompleted = false,
+    this.name = '',
+    this.priority = Priority.low,
+    this.reminderDateTime,
+  });
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -13,6 +17,8 @@ class Task extends HiveObject {
   Priority priority = Priority.low;
   @HiveField(3)
   int _id = -1;
+  @HiveField(4)
+  String? reminderDateTime;
 
   int get id => _id;
 
@@ -20,12 +26,13 @@ class Task extends HiveObject {
     _id = value;
   }
 
-  Map<String, Object?> toMap() { 
+  Map<String, Object?> toMap() {
     return {
       'name': name,
       'isCompleted': isCompleted,
       'priority': priority.index,
-      'id': id
+      'id': id,
+      'reminderDateTime':reminderDateTime
     };
   }
 
@@ -34,9 +41,9 @@ class Task extends HiveObject {
       name: first['name'] as String,
       isCompleted: first['isCompleted'] as bool,
       priority: Priority.values[first['priority'] as int],
+      reminderDateTime: first['reminderDateTime'] as String
     );
   }
-   
 }
 
 @HiveType(typeId: 1)
@@ -50,9 +57,9 @@ enum Priority {
 }
 
 //user setting model -----------------------------------------------------
-@HiveType(typeId: 2) 
+@HiveType(typeId: 2)
 class UserSetting {
-  @HiveField(0) 
+  @HiveField(0)
   String themeIdentifer;
 
   UserSetting({required this.themeIdentifer});

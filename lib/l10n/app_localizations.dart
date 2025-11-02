@@ -212,17 +212,17 @@ abstract class AppLocalizations {
   /// **'Do you want to delete task?'**
   String get deleteTaskCaption;
 
-  /// No description provided for @dueDate.
+  /// No description provided for @reminderDate.
   ///
   /// In en, this message translates to:
-  /// **'Due date'**
-  String get dueDate;
+  /// **'Reminder date'**
+  String get reminderDate;
 
-  /// No description provided for @dueTime.
+  /// No description provided for @reminderTime.
   ///
   /// In en, this message translates to:
-  /// **'Due time'**
-  String get dueTime;
+  /// **'Reminder time'**
+  String get reminderTime;
 
   /// No description provided for @deleteTaskBtm.
   ///

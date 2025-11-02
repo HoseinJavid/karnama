@@ -18,6 +18,8 @@ class EdittaskScreen extends StatefulWidget {
 }
 
 class _EdittaskScreenState extends State<EdittaskScreen> {
+  Jalali? reminderDate;
+  TimeOfDay? reminderTime;
   Map<Priority, bool> prioritysState = {
     Priority.high: false,
     Priority.low: false,
@@ -27,13 +29,32 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
 
   @override
   void initState() {
-    textController = TextEditingController(text: widget.task?.name);
+    //initial
+    initialProperty();
+    super.initState();
+  }
+
+  void initialProperty() {
     if (widget.task != null) {
+      textController = TextEditingController(text: widget.task!.name);
       prioritysState[widget.task!.priority] = true;
+      //
+      if (widget.task!.reminderDateTime != null) {
+        //parsing string ISO 8601 to DateTime model
+        DateTime parsedDateTime =
+            DateTime.parse(widget.task!.reminderDateTime!);
+        //extract jalali
+        Jalali recoveredJalali = Jalali.fromDateTime(parsedDateTime);
+        //extract TimeOfDay
+        TimeOfDay recoveredTime = TimeOfDay(
+            hour: recoveredJalali.hour, minute: recoveredJalali.minute);
+        reminderDate = recoveredJalali;
+        reminderTime = recoveredTime;
+      }
     } else {
       prioritysState[Priority.normal] = true;
+      textController = TextEditingController();
     }
-    super.initState();
   }
 
   @override
@@ -55,6 +76,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             if (widget.task != null) {
               widget.task!.name = textController.text;
               widget.task!.priority = prioritySelected;
+              setTaskReminderDateTime(widget.task!);
               bloc.add(TasksUpdate(widget.task!));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
@@ -66,8 +88,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                   duration: const Duration(milliseconds: 3000),
                 ));
               } else {
-                bloc.add(TasksCreate(Task(
-                    name: textController.text, priority: prioritySelected)));
+                Task task =
+                    Task(name: textController.text, priority: prioritySelected);
+                setTaskReminderDateTime(task);
+                bloc.add(TasksCreate(task));
                 Navigator.of(context).pop();
                 FocusScope.of(context).unfocus();
               }
@@ -194,14 +218,16 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             ),
             InkWell(
               onTap: () async {
-                Jalali? picked = await showPersianDatePicker(
+                reminderDate ??= Jalali.now();
+                reminderDate = await showPersianDatePicker(
                   context: context,
-                  initialDate: Jalali.now(),
+                  initialDate: reminderDate,
                   firstDate: Jalali(1385, 8),
                   lastDate: Jalali(1450, 9),
                   initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
                   // initialDatePickerMode: PersianDatePickerMode.year,
                 );
+                setState(() {});
               },
               child: SizedBox(
                 height: 64,
@@ -214,7 +240,18 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                       const SizedBox(
                         width: 8,
                       ),
-                      Text(appLocalizations.dueDate),
+                      Text(appLocalizations.reminderDate),
+                      const Expanded(child: SizedBox()),
+                      reminderDate != null
+                          ? Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: themeData.colorScheme.primary
+                                      .withAlpha(50)),
+                              child: Text(reminderDate!.formatFullDate()),
+                            )
+                          : Container()
                     ],
                   ),
                 ),
@@ -226,9 +263,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             ),
             InkWell(
               onTap: () async {
-                var picked = await showTimePicker(
+                reminderTime ??= TimeOfDay.now();
+                reminderTime = await showTimePicker(
                   context: context,
-                  initialTime: TimeOfDay.now(),
+                  initialTime: reminderTime!,
                   initialEntryMode: TimePickerEntryMode.input,
                   builder: (BuildContext context, Widget? child) {
                     return Directionality(
@@ -241,19 +279,32 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     );
                   },
                 );
+                setState(() {});
               },
               child: SizedBox(
                 height: 64,
                 width: double.infinity,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 24, left: 24),
+                  padding: const EdgeInsets.only(right: 24, left: 24),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(Icons.timer_outlined),
-                      SizedBox(
+                      const Icon(Icons.timer_outlined),
+                      const SizedBox(
                         width: 8,
                       ),
-                      Text(appLocalizations.dueTime)
+                      Text(appLocalizations.reminderTime),
+                      const Expanded(child: SizedBox()),
+                      reminderTime != null
+                          ? Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: themeData.colorScheme.primary
+                                      .withAlpha(50)),
+                              child: Text(reminderTime!.format(context)),
+                            )
+                          : Container()
                     ],
                   ),
                 ),
@@ -346,6 +397,41 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
         ),
       ),
     );
+  }
+
+  void setTaskReminderDateTime(Task task) {
+    if (reminderDate != null) {
+      //convert to gregorian
+      var baseDate = reminderDate!.toDateTime();
+      if (reminderTime != null) {
+        //merge (reminderTime)TimeOfDay to gregorian
+        DateTime finalDateTime = DateTime(baseDate.year, baseDate.month,
+            baseDate.day, reminderTime!.hour, reminderTime!.minute);
+        //convert to ISO 8601
+        var combinedString = finalDateTime.toIso8601String();
+        task.reminderDateTime = combinedString;
+      } else {
+        //merge Midnight to gregorian
+        DateTime finalDateTime =
+            DateTime(baseDate.year, baseDate.month, baseDate.day, 23, 59, 59);
+        //convert to ISO 8601
+        var combinedString = finalDateTime.toIso8601String();
+        task.reminderDateTime = combinedString;
+      }
+    } else if (reminderTime != null) {
+      //create now gregorian
+      var baseDate = DateTime.now();
+      //merge (reminderTime)TimeOfDay to gregorian
+      DateTime finalDateTime = DateTime(baseDate.year, baseDate.month,
+          baseDate.day, reminderTime!.hour, reminderTime!.minute);
+
+      if (finalDateTime.isBefore(DateTime.now())) {
+        finalDateTime = finalDateTime.add(const Duration(days: 1));
+      }
+      //convert to ISO 8601
+      var combinedString = finalDateTime.toIso8601String();
+      task.reminderDateTime = combinedString;
+    }
   }
 }
 

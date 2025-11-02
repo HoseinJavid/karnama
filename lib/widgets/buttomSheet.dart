@@ -16,6 +16,7 @@ class CustomButtomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     TaskBloc bloc = BlocProvider.of<TaskBloc>(context);
     return Container(
+      height: 150,
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16), topRight: Radius.circular(16))),
@@ -82,6 +83,7 @@ class CustomButtomSheet extends StatelessWidget {
       },
       useSafeArea: true,
       showDragHandle: true,
+      
     );
   }
 }

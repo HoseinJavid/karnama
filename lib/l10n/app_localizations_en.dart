@@ -66,10 +66,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteTaskCaption => 'Do you want to delete task?';
 
   @override
-  String get dueDate => 'Due date';
+  String get reminderDate => 'Reminder date';
 
   @override
-  String get dueTime => 'Due time';
+  String get reminderTime => 'Reminder time';
 
   @override
   String get deleteTaskBtm => 'Delete Task';

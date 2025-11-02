@@ -67,10 +67,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deleteTaskCaption => 'آیا مطمعنی که میخوای کارنما رو پاک کنی؟';
 
   @override
-  String get dueDate => 'تاریخ سررسید';
+  String get reminderDate => 'تاریخ یادآوری';
 
   @override
-  String get dueTime => 'زمان سررسید';
+  String get reminderTime => 'زمان یادآوری';
 
   @override
   String get deleteTaskBtm => 'حذف کارنما';
