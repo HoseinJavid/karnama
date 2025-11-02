@@ -1,9 +1,9 @@
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/source_abs.dart';
+import 'package:karnama/data/datasource/task_data_source_abs.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SqfliteTaskImpl implements DataSource<Task> {
+class SqfliteTaskImpl implements ILocalTaskDataSource<Task> {
   Database? _database;
 
   Future<Database> get database async {

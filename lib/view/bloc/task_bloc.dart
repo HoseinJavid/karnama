@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:meta/meta.dart';
 
 part 'task_event.dart';

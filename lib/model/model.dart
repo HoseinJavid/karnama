@@ -48,3 +48,12 @@ enum Priority {
   @HiveField(2)
   high
 }
+
+//user setting model -----------------------------------------------------
+@HiveType(typeId: 2) 
+class UserSetting {
+  @HiveField(0) 
+  String themeIdentifer;
+
+  UserSetting({required this.themeIdentifer});
+}

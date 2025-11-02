@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/source_abs.dart';
+import 'package:karnama/data/datasource/task_data_source_abs.dart';
 
 //Data layer
-class HiveTaskImpl implements DataSource<Task> {
+class HiveTaskImpl implements ILocalTaskDataSource<Task> {
   final Box<Task> box;
 
   HiveTaskImpl({required this.box});

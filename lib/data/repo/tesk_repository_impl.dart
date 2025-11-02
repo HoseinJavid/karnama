@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/source_abs.dart';
+import 'package:karnama/data/datasource/task_data_source_abs.dart';
 
-class Repository<T> extends ChangeNotifier implements DataSource<T> {
-  final DataSource<T> injectDataSourceImpl;
+class Repository<T> extends ChangeNotifier implements ILocalTaskDataSource<T> {
+  final ILocalTaskDataSource<T> injectDataSourceImpl;
 
   Repository({required this.injectDataSourceImpl});
   @override

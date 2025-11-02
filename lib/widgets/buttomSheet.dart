@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:karnama/view/editTask.dart';
 
 class CustomButtomSheet extends StatelessWidget {

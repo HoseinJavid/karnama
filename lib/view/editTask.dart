@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 class EdittaskScreen extends StatefulWidget {
@@ -56,6 +56,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
               widget.task!.name = textController.text;
               widget.task!.priority = prioritySelected;
               bloc.add(TasksUpdate(widget.task!));
+              Navigator.of(context).pop();
+              FocusScope.of(context).unfocus();
             } else {
               if (textController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -103,11 +105,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                       child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50)),
-                          child:
-                              Localizations.localeOf(context).languageCode ==
-                                      'en'
-                                  ? const Icon(CupertinoIcons.arrow_left)
-                                  : const Icon(CupertinoIcons.arrow_right)),
+                          child: Localizations.localeOf(context).languageCode ==
+                                  'en'
+                              ? const Icon(CupertinoIcons.arrow_left)
+                              : const Icon(CupertinoIcons.arrow_right)),
                     ),
                   ),
                   const SizedBox(
@@ -175,10 +176,12 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                 // expands: true,
                 maxLines: null,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  filled: false,
-                  hintText: appLocalizations.addATaskForToday,
-                ),
+                    border: InputBorder.none,
+                    filled: false,
+                    hintText: appLocalizations.addATaskForToday,
+                    hintStyle: TextStyle(
+                        color:
+                            themeData.colorScheme.onSurface.withOpacity(0.5))),
                 controller: textController,
               ),
             ),
@@ -204,11 +207,11 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                 height: 64,
                 width: double.infinity,
                 child: Padding(
-                  padding: EdgeInsets.only(right: 24, left: 24),
+                  padding: const EdgeInsets.only(right: 24, left: 24),
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_month),
-                      SizedBox(
+                      const Icon(Icons.calendar_month),
+                      const SizedBox(
                         width: 8,
                       ),
                       Text(appLocalizations.dueDate),
@@ -317,9 +320,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     children: [
                       Icon(
                         Icons.delete_outlined,
-                        color: widget.task != null
-                            ? Colors.red
-                            : Colors.grey[400],
+                        color:
+                            widget.task != null ? Colors.red : Colors.grey[400],
                         size: 26,
                       ),
                       const SizedBox(
@@ -382,7 +384,8 @@ class _PriorityWidgetState extends State<PriorityWidget> {
         width: (MediaQuery.of(context).size.width - 60) / 3,
         height: 30,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black.withOpacity(0.1)),
+            border: Border.all(
+                color: themeData.colorScheme.onSurface.withOpacity(0.15)),
             borderRadius: BorderRadius.circular(3)),
         child: Padding(
           padding: Localizations.localeOf(context) == const Locale('fa')

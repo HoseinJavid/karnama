@@ -48,6 +48,40 @@ class TaskAdapter extends TypeAdapter<Task> {
           typeId == other.typeId;
 }
 
+class UserSettingAdapter extends TypeAdapter<UserSetting> {
+  @override
+  final int typeId = 2;
+
+  @override
+  UserSetting read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return UserSetting(
+      themeIdentifer: fields[0] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, UserSetting obj) {
+    writer
+      ..writeByte(1)
+      ..writeByte(0)
+      ..write(obj.themeIdentifer);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserSettingAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
 class PriorityAdapter extends TypeAdapter<Priority> {
   @override
   final int typeId = 1;

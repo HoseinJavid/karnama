@@ -43,9 +43,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';
-import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/hive_task_impl.dart';
+import 'package:karnama/data/datasource/local_hive_task_data_source_impl.dart';
 
 void main() {
   late Box<Task> box;

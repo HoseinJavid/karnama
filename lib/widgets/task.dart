@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:karnama/bloc/task_bloc.dart';
+import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/source/repository_injection.dart';
+import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:karnama/widgets/buttomSheet.dart';
 
 class TaskItem extends StatefulWidget {
@@ -53,11 +53,13 @@ class _TaskItemState extends State<TaskItem> {
             ),
             Container(
               decoration: BoxDecoration(
-                  color: widget.themeData.colorScheme.onPrimary,
+                  // color: widget.themeData.colorScheme.surfaceContainerHigh,
+                  color: Colors.white,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
                       bottomLeft: Radius.circular(5)),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1))]
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.25),blurRadius: 10,)],
+                  
                   // color: Colors.black,
                   ),
               height: 65,
@@ -80,6 +82,7 @@ class _TaskItemState extends State<TaskItem> {
                     maxLines: 1,
                     style: widget.themeData.textTheme.bodyMedium!.copyWith(
                         height: 2,
+                        color: Colors.black,
                         decoration:
                             widget.task.isCompleted
                                 ? TextDecoration.lineThrough

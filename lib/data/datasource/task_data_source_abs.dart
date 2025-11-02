@@ -1,5 +1,5 @@
 //Domain layer
-abstract class DataSource<T> {
+abstract class ILocalTaskDataSource<T> {
   //CRUD operations
   //R
   Future<T?> findById(String id);

@@ -66,6 +66,7 @@ flutter:
     - assets/animation/home/defult.json
     - assets/img/splash/splash.png
     - assets/img/icon/icon.png
+    - assets/img/theme/
 
 
 
