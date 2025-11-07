@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:karnama/constant.dart';
 import 'package:karnama/l10n/app_localizations.dart';
+import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 import 'package:karnama/view/screens/selection_theme_screen/selection_theme_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -142,13 +144,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else if (state is TasksError) {
                           return Center(child: Text(state.message));
                         } else if (state is TasksEmpty) {
-                          return Center(
-                            child: Lottie.asset(
-                              'assets/animation/home/defult.json',
-                              width: 500,
-                              height: 500,
-                              fit: BoxFit.contain,
-                            ),
+                          return BlocBuilder<SelectionThemeBloc,
+                              SelectionThemeState>(
+                            builder: (context, state) {
+                              return Center(
+                                child: Lottie.asset(
+                                  state is ThemeConfigLoaded
+                                      ? findTheme(state.themeIdentifer)
+                                          .defultAnimUri
+                                      : 'assets/animation/home/Solid_defult.json',
+                                  width: 500,
+                                  height: 500,
+                                  fit: BoxFit.contain,
+                                ),
+                              );
+                            },
                           );
                         } else if (state is TasksSuccess) {
                           List<Task> tasks = state.tasks

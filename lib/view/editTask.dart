@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    show AndroidFlutterLocalNotificationsPlugin;
+import 'package:karnama/services/schedule_task_notificaton_service.dart';
+import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
@@ -64,7 +68,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
     ThemeData themeData = Theme.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
+          onPressed: () async {
             late Priority prioritySelected;
             prioritysState.forEach(
               (key, value) {
@@ -76,7 +80,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             if (widget.task != null) {
               widget.task!.name = textController.text;
               widget.task!.priority = prioritySelected;
-              setTaskReminderDateTime(widget.task!);
+              await setTaskReminderDateTime(widget.task!);
               bloc.add(TasksUpdate(widget.task!));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
@@ -90,7 +94,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
               } else {
                 Task task =
                     Task(name: textController.text, priority: prioritySelected);
-                setTaskReminderDateTime(task);
+                await setTaskReminderDateTime(task);
                 bloc.add(TasksCreate(task));
                 Navigator.of(context).pop();
                 FocusScope.of(context).unfocus();
@@ -399,7 +403,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
     );
   }
 
-  void setTaskReminderDateTime(Task task) {
+  Future<void> setTaskReminderDateTime(Task task) async {
+    late DateTime result;
     if (reminderDate != null) {
       //convert to gregorian
       var baseDate = reminderDate!.toDateTime();
@@ -410,6 +415,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
         //convert to ISO 8601
         var combinedString = finalDateTime.toIso8601String();
         task.reminderDateTime = combinedString;
+        result = finalDateTime;
       } else {
         //merge Midnight to gregorian
         DateTime finalDateTime =
@@ -417,6 +423,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
         //convert to ISO 8601
         var combinedString = finalDateTime.toIso8601String();
         task.reminderDateTime = combinedString;
+        result = finalDateTime;
       }
     } else if (reminderTime != null) {
       //create now gregorian
@@ -431,8 +438,22 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
       //convert to ISO 8601
       var combinedString = finalDateTime.toIso8601String();
       task.reminderDateTime = combinedString;
+      result = finalDateTime;
     }
-  }
+    
+        await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
+
+  await scheduleTaskNotification(
+    scheduledTime: result,
+    title: "یادآوری تسک",
+    body: task.name,
+    id: task.id.hashCode,
+  );
+
+    }
 }
 
 class PriorityWidget extends StatefulWidget {

@@ -29,6 +29,8 @@ dependencies:
   persian_datetime_picker: ^3.1.0
   shamsi_date: ^1.0.4
   flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+  flutter_timezone: ^5.0.1
 
   
 dev_dependencies:
@@ -62,10 +64,10 @@ flutter:
           weight: 100
   assets:
     - assets/fonts/
-    - assets/animation/splash/animation.json
-    - assets/animation/home/defult.json
-    - assets/img/splash/splash.png
-    - assets/img/icon/icon.png
+    - assets/animation/splash/
+    - assets/animation/home/
+    - assets/img/splash/
+    - assets/img/icon/
     - assets/img/theme/
 
 
