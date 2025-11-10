@@ -52,7 +52,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get no => 'نه';
 
   @override
-  String get addATaskForToday => 'کارنماتو همین جااضافه کن ...';
+  String get addTitleTask => 'عنوان کارنما رو اینجا وارد کن ...';
+
+  @override
+  String get addDiscriptionTask => 'توضیحات کارنما رو اینجا وارد کن ...';
 
   @override
   String get edit => 'ویرایش';

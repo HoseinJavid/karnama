@@ -48,6 +48,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             event.oldTask.name = event.taskName;
             event.oldTask.priority = event.prioritySelected;
             event.oldTask.isCompleted = event.isCompleted;
+            event.oldTask.desceription = event.taskDesceription;
             if (event.isCompleted == true) {
               //delete notif
               var listPendingNotif = await flutterLocalNotificationsPlugin
@@ -74,7 +75,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             Task task = Task(
                 name: event.taskName,
                 priority: event.prioritySelected,
-                id: usersetting.latestTaskId);
+                id: usersetting.latestTaskId,
+                desceription: event.taskDesceription);
             await userSettingRepository.updateAllUserSetting(usersetting);
             await setTaskReminderDateTime(task, event.reminderDate,
                 event.reminderTime, usersetting.selectedRingtone);

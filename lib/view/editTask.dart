@@ -30,7 +30,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
     Priority.low: false,
     Priority.normal: false
   };
-  late TextEditingController textController;
+  late TextEditingController titleTaskController;
+  late TextEditingController desceriptionTaskController;
 
   @override
   void initState() {
@@ -41,7 +42,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
 
   void initialProperty() {
     if (widget.task != null) {
-      textController = TextEditingController(text: widget.task!.name);
+      titleTaskController = TextEditingController(text: widget.task!.name);
+      desceriptionTaskController =
+          TextEditingController(text: widget.task!.desceription);
+
       prioritysState[widget.task!.priority] = true;
       //
       if (widget.task!.reminderDateTime != null) {
@@ -58,7 +62,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
       }
     } else {
       prioritysState[Priority.normal] = true;
-      textController = TextEditingController();
+      titleTaskController = TextEditingController();
+      desceriptionTaskController = TextEditingController();
     }
   }
 
@@ -84,11 +89,12 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                   reminderDate: reminderDate,
                   reminderTime: reminderTime,
                   prioritySelected: prioritySelected,
-                  taskName: textController.text));
+                  taskName: titleTaskController.text,
+                  taskDesceription: desceriptionTaskController.text));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
             } else {
-              if (textController.text.isEmpty) {
+              if (titleTaskController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(appLocalizations.warningEmptyTitle),
                   backgroundColor: Colors.red,
@@ -98,7 +104,10 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                 if (reminderTime!.isBefore(TimeOfDay.now()) ||
                     reminderTime!.isAtSameTimeAs(TimeOfDay.now())) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(appLocalizations.pastTimeWarning,style: const TextStyle(color: Colors.white),),
+                    content: Text(
+                      appLocalizations.pastTimeWarning,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                     backgroundColor: Colors.red,
                     duration: const Duration(milliseconds: 8000),
                   ));
@@ -107,37 +116,44 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                   bloc.add(TasksCreate(
                       reminderDate: reminderDate,
                       reminderTime: reminderTime,
-                      taskName: textController.text,
-                      prioritySelected: prioritySelected));
+                      taskName: titleTaskController.text,
+                      prioritySelected: prioritySelected,
+                      taskDesceription: desceriptionTaskController.text));
                   Navigator.of(context).pop();
                   FocusScope.of(context).unfocus();
 
+                  if (reminderDate != null || reminderTime != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        'حله وقتش که رسیدیادت میندازم رفیق',
+                        style:
+                            TextStyle(color: themeData.colorScheme.onPrimary),
+                      ),
+                      backgroundColor: themeData.colorScheme.primary,
+                      duration: const Duration(milliseconds: 3000),
+                    ));
+                  }
+                }
+              } else {
+                bloc.add(TasksCreate(
+                    reminderDate: reminderDate,
+                    reminderTime: reminderTime,
+                    taskName: titleTaskController.text,
+                    prioritySelected: prioritySelected,
+                    taskDesceription: desceriptionTaskController.text));
+                Navigator.of(context).pop();
+                FocusScope.of(context).unfocus();
+
+                if (reminderDate != null || reminderTime != null) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       'حله وقتش که رسیدیادت میندازم رفیق',
                       style: TextStyle(color: themeData.colorScheme.onPrimary),
                     ),
                     backgroundColor: themeData.colorScheme.primary,
-                    duration: const Duration(milliseconds: 6000),
+                    duration: const Duration(milliseconds: 3000),
                   ));
                 }
-              } else {
-                bloc.add(TasksCreate(
-                    reminderDate: reminderDate,
-                    reminderTime: reminderTime,
-                    taskName: textController.text,
-                    prioritySelected: prioritySelected));
-                Navigator.of(context).pop();
-                FocusScope.of(context).unfocus();
-
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    'حله وقتش که رسیدیادت میندازم رفیق',
-                    style: TextStyle(color: themeData.colorScheme.onPrimary),
-                  ),
-                  backgroundColor: themeData.colorScheme.primary,
-                  duration: const Duration(milliseconds: 3000),
-                ));
               }
             }
           },
@@ -151,260 +167,287 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             ],
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 24,
-          top: 52,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            McwAppBar(title: appLocalizations.editTask, themeData: themeData),
-            const SizedBox(
-              height: 32,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 24, left: 24),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  PriorityWidget(
-                    priority: Priority.high,
-                    color: const Color(0xff7465FF),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.high,
-                  ),
-                  PriorityWidget(
-                    priority: Priority.normal,
-                    color: const Color(0xffFC7E2F),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.normal,
-                  ),
-                  PriorityWidget(
-                    priority: Priority.low,
-                    color: const Color(0xff1CC4F6),
-                    prioritysState: prioritysState,
-                    prioritysStateChange: (prioritysState) {
-                      setState(() {
-                        // this.prioritysState = prioritysState;
-                      });
-                    },
-                    l10nName: appLocalizations.low,
-                  )
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            bottom: 24,
+            top: 52,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              McwAppBar(title: appLocalizations.editTask, themeData: themeData),
+              const SizedBox(
+                height: 32,
               ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 24, left: 24),
-              child: TextField(
-                // expands: true,
-                maxLines: null,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    filled: false,
-                    hintText: appLocalizations.addATaskForToday,
-                    hintStyle: TextStyle(
-                        color:
-                            themeData.colorScheme.onSurface.withOpacity(0.5))),
-                controller: textController,
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PriorityWidget(
+                      priority: Priority.high,
+                      color: const Color(0xff7465FF),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.high,
+                    ),
+                    PriorityWidget(
+                      priority: Priority.normal,
+                      color: const Color(0xffFC7E2F),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.normal,
+                    ),
+                    PriorityWidget(
+                      priority: Priority.low,
+                      color: const Color(0xff1CC4F6),
+                      prioritysState: prioritysState,
+                      prioritysStateChange: (prioritysState) {
+                        setState(() {
+                          // this.prioritysState = prioritysState;
+                        });
+                      },
+                      l10nName: appLocalizations.low,
+                    )
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Divider(
-              color: Colors.grey.withOpacity(0.2),
-              height: 0.1,
-            ),
-            InkWell(
-              onTap: () async {
-                reminderDate ??= Jalali.now();
-                if (Localizations.localeOf(context).languageCode == 'fa') {
-                  reminderDate = await showPersianDatePicker(
-                    context: context,
-                    initialDate: reminderDate,
-                    firstDate: Jalali(1385, 8),
-                    lastDate: Jalali(1450, 9),
-                    initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
-                    // initialDatePickerMode: PersianDatePickerMode.year,
-                  );
-                } else {
-                  var dateTime = await showDatePicker(
+              const SizedBox(
+                height: 32,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: TextField(
+                  // expands: true,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: false,
+                      hintText: appLocalizations.addTitleTask,
+                      hintStyle: TextStyle(
+                          color: themeData.colorScheme.onSurface
+                              .withOpacity(0.5))),
+                  controller: titleTaskController,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 24, left: 24),
+                child: TextField(
+                  // expands: true,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: false,
+                      hintText: appLocalizations.addDiscriptionTask,
+                      hintStyle: TextStyle(
+                          color: themeData.colorScheme.onSurface
+                              .withOpacity(0.5))),
+                  controller: desceriptionTaskController,
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: () async {
+                  reminderDate ??= Jalali.now();
+                  if (Localizations.localeOf(context).languageCode == 'fa') {
+                    reminderDate = await showPersianDatePicker(
                       context: context,
-                      initialDate: reminderDate!.toDateTime(),
-                      firstDate: Jalali(1385, 8).toDateTime(),
-                      lastDate: Jalali(1450, 9).toDateTime(),
-                      initialEntryMode: DatePickerEntryMode.calendarOnly);
-                  reminderDate = Jalali.fromDateTime(dateTime!);
-                }
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 64,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 24, left: 24),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.calendar_month),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(appLocalizations.reminderDate),
-                      const Expanded(child: SizedBox()),
-                      reminderDate != null
-                          ? McwReminderDate(
-                              themeData: themeData, reminderDate: reminderDate)
-                          : Container()
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey.withOpacity(0.2),
-              height: 0.1,
-            ),
-            InkWell(
-              onTap: () async {
-                reminderTime ??= TimeOfDay.now();
-                reminderTime = await showTimePicker(
-                  context: context,
-                  initialTime: reminderTime!,
-                  initialEntryMode: TimePickerEntryMode.input,
-                  builder: (BuildContext context, Widget? child) {
-                    return Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(alwaysUse24HourFormat: true),
-                        child: child!,
-                      ),
+                      initialDate: reminderDate,
+                      firstDate: Jalali(1385, 8),
+                      lastDate: Jalali(1450, 9),
+                      initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
+                      // initialDatePickerMode: PersianDatePickerMode.year,
                     );
-                  },
-                );
-                setState(() {});
-              },
-              child: SizedBox(
-                height: 64,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 24, left: 24),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(Icons.timer_outlined),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(appLocalizations.reminderTime),
-                      const Expanded(child: SizedBox()),
-                      reminderTime != null
-                          ? McwReminderTime(
-                              themeData: themeData, reminderTime: reminderTime)
-                          : Container()
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Divider(
-              color: Colors.grey.withOpacity(0.2),
-              height: 0.1,
-            ),
-            InkWell(
-              onTap: widget.task != null
-                  ? () async {
-                      showDialog(
+                  } else {
+                    var dateTime = await showDatePicker(
                         context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                              appLocalizations.deleteTasks,
-                              style: themeData.textTheme.titleLarge,
-                            ),
-                            content: Text(
-                              appLocalizations.deleteTaskCaption,
-                              style: themeData.textTheme.bodyLarge,
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  appLocalizations.no,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  bloc.add(TasksDelete(widget.task!));
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text(
-                                  appLocalizations.yes,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  : null,
-              child: SizedBox(
-                height: 64,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 24, left: 24),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.delete_outlined,
-                        color:
-                            widget.task != null ? Colors.red : Colors.grey[400],
-                        size: 26,
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Text(appLocalizations.deleteTaskBtm,
-                          style: TextStyle(
-                            color: widget.task != null
-                                ? Colors.red
-                                : Colors.grey[400],
-                          )),
-                    ],
+                        initialDate: reminderDate!.toDateTime(),
+                        firstDate: Jalali(1385, 8).toDateTime(),
+                        lastDate: Jalali(1450, 9).toDateTime(),
+                        initialEntryMode: DatePickerEntryMode.calendarOnly);
+                    reminderDate = Jalali.fromDateTime(dateTime!);
+                  }
+                  setState(() {});
+                },
+                child: SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.calendar_month),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(appLocalizations.reminderDate),
+                        const Expanded(child: SizedBox()),
+                        reminderDate != null
+                            ? McwReminderDate(
+                                themeData: themeData,
+                                reminderDate: reminderDate)
+                            : Container()
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Divider(
-              color: Colors.grey.withOpacity(0.2),
-              height: 0.1,
-            ),
-          ],
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: () async {
+                  reminderTime ??= TimeOfDay.now();
+                  reminderTime = await showTimePicker(
+                    context: context,
+                    initialTime: reminderTime!,
+                    initialEntryMode: TimePickerEntryMode.input,
+                    builder: (BuildContext context, Widget? child) {
+                      return Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(alwaysUse24HourFormat: true),
+                          child: child!,
+                        ),
+                      );
+                    },
+                  );
+                  setState(() {});
+                },
+                child: SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(Icons.timer_outlined),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(appLocalizations.reminderTime),
+                        const Expanded(child: SizedBox()),
+                        reminderTime != null
+                            ? McwReminderTime(
+                                themeData: themeData,
+                                reminderTime: reminderTime)
+                            : Container()
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+              InkWell(
+                onTap: widget.task != null
+                    ? () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                appLocalizations.deleteTasks,
+                                style: themeData.textTheme.titleLarge,
+                              ),
+                              content: Text(
+                                appLocalizations.deleteTaskCaption,
+                                style: themeData.textTheme.bodyLarge,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    appLocalizations.no,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    bloc.add(TasksDelete(widget.task!));
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    appLocalizations.yes,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    : null,
+                child: SizedBox(
+                  height: 64,
+                  width: double.infinity,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 24, left: 24),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.delete_outlined,
+                          color: widget.task != null
+                              ? Colors.red
+                              : Colors.grey[400],
+                          size: 26,
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(appLocalizations.deleteTaskBtm,
+                            style: TextStyle(
+                              color: widget.task != null
+                                  ? Colors.red
+                                  : Colors.grey[400],
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Divider(
+                color: Colors.grey.withOpacity(0.2),
+                height: 0.1,
+              ),
+            ],
+          ),
         ),
       ),
     );

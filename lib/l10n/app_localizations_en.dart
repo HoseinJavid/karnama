@@ -51,7 +51,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get no => 'No';
 
   @override
-  String get addATaskForToday => 'add a task for today ...';
+  String get addTitleTask => 'add a task for today ...';
+
+  @override
+  String get addDiscriptionTask => 'add a desceription for today ...';
 
   @override
   String get edit => 'Edit';

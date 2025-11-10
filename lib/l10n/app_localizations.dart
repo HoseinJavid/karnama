@@ -182,11 +182,17 @@ abstract class AppLocalizations {
   /// **'No'**
   String get no;
 
-  /// No description provided for @addATaskForToday.
+  /// No description provided for @addTitleTask.
   ///
   /// In en, this message translates to:
   /// **'add a task for today ...'**
-  String get addATaskForToday;
+  String get addTitleTask;
+
+  /// No description provided for @addDiscriptionTask.
+  ///
+  /// In en, this message translates to:
+  /// **'add a desceription for today ...'**
+  String get addDiscriptionTask;
 
   /// No description provided for @edit.
   ///
