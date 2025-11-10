@@ -138,7 +138,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
       themeIdentifer: 'Landscape_2_City',
       imageUri: 'assets/img/theme/theme-2.jpg',
       myCustomAppTheme: MyCustomAppTheme(
-          surfaceColor: const Color(0xFFa5a3a0),
+          surfaceColor: const Color(0xFFd2d1d0),
           onSurfaceColor: const Color(0xff000000),
           primaryColor: const Color(0xff7f7c77),
           onPrimaryColor: const Color(0xff000000),
@@ -150,7 +150,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
       themeIdentifer: 'Landscape_3_Minimal',
       imageUri: 'assets/img/theme/theme-3.jpeg',
       myCustomAppTheme: MyCustomAppTheme(
-          surfaceColor: const Color(0xffa0aab6),
+          surfaceColor: const Color(0xffe3e6e9),
           onSurfaceColor: const Color(0xff000000),
           primaryColor: const Color(0xffa0aab6),
           onPrimaryColor: const Color(0xff000000),
@@ -186,7 +186,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
       themeIdentifer: 'Landscape_6_Lake',
       imageUri: 'assets/img/theme/theme-6.jpeg',
       myCustomAppTheme: MyCustomAppTheme(
-          surfaceColor: const Color(0xfff0cb77),
+          surfaceColor: const Color(0xfffbf0d8),
           onSurfaceColor: const Color(0xff000e19),
           primaryColor: const Color(0xffe9b43d),
           onPrimaryColor: const Color(0xff000e19),

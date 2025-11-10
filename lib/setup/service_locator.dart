@@ -14,6 +14,7 @@ Future<void> setupServiceLocator() async {
   Hive.registerAdapter(TaskAdapter());
   Hive.registerAdapter(PriorityAdapter());
   Hive.registerAdapter(UserSettingAdapter());
+  Hive.registerAdapter(RingtoneAdapter());
   taskbox = await Hive.openBox<Task>(
     'task',
   );
@@ -21,11 +22,9 @@ Future<void> setupServiceLocator() async {
 
   //init local notification ---------------------
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  //request permision ---------------------------------------
-  // await flutterLocalNotificationsPlugin
-  //     .resolvePlatformSpecificImplementation<
-  //         AndroidFlutterLocalNotificationsPlugin>()
-  //     ?.requestNotificationsPermission();
+  
+
+  
 
   //android init
   const AndroidInitializationSettings initializationSettingsAndroid =

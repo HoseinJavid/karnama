@@ -114,4 +114,62 @@ class AppLocalizationsEn extends AppLocalizations {
   String ratingThankYouMessage(int rating) {
     return 'You gave a $rating star rating. Thank you!';
   }
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get ringtone => 'Ringtone';
+
+  @override
+  String get themeSettings => 'Theme Settings';
+
+  @override
+  String get solidColor => 'Solid Color';
+
+  @override
+  String get scenery => 'Scenery';
+
+  @override
+  String get appName => 'This App';
+
+  @override
+  String get pastTimeWarning =>
+      'Dear friend, this app is for reminding you of tasks you are *going* to do, not what you have *already* done. Please adjust the time slightly forward! We can\'t alert you for \"yesterday\".';
+
+  @override
+  String get ringtoneDefault => 'Default';
+
+  @override
+  String get ringtoneBell => 'Bell';
+
+  @override
+  String get ringtoneChime => 'Chime';
+
+  @override
+  String get ringtoneGalaxy => 'Galaxy';
+
+  @override
+  String get ringtoneFunny => 'Funny';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get faLanguage => 'Persian';
+
+  @override
+  String get enLanguage => 'English';
+
+  @override
+  String get selectLanguage => 'select language';
+
+  @override
+  String get selectRingtone => 'select ringtone';
 }

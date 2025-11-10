@@ -301,6 +301,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You gave a {rating} star rating. Thank you!'**
   String ratingThankYouMessage(int rating);
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @ringtone.
+  ///
+  /// In en, this message translates to:
+  /// **'Ringtone'**
+  String get ringtone;
+
+  /// No description provided for @themeSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Settings'**
+  String get themeSettings;
+
+  /// No description provided for @solidColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Solid Color'**
+  String get solidColor;
+
+  /// No description provided for @scenery.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenery'**
+  String get scenery;
+
+  /// No description provided for @appName.
+  ///
+  /// In en, this message translates to:
+  /// **'This App'**
+  String get appName;
+
+  /// No description provided for @pastTimeWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Dear friend, this app is for reminding you of tasks you are *going* to do, not what you have *already* done. Please adjust the time slightly forward! We can\'t alert you for \"yesterday\".'**
+  String get pastTimeWarning;
+
+  /// No description provided for @ringtoneDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get ringtoneDefault;
+
+  /// No description provided for @ringtoneBell.
+  ///
+  /// In en, this message translates to:
+  /// **'Bell'**
+  String get ringtoneBell;
+
+  /// No description provided for @ringtoneChime.
+  ///
+  /// In en, this message translates to:
+  /// **'Chime'**
+  String get ringtoneChime;
+
+  /// No description provided for @ringtoneGalaxy.
+  ///
+  /// In en, this message translates to:
+  /// **'Galaxy'**
+  String get ringtoneGalaxy;
+
+  /// No description provided for @ringtoneFunny.
+  ///
+  /// In en, this message translates to:
+  /// **'Funny'**
+  String get ringtoneFunny;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @faLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Persian'**
+  String get faLanguage;
+
+  /// No description provided for @enLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get enLanguage;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'select language'**
+  String get selectLanguage;
+
+  /// No description provided for @selectRingtone.
+  ///
+  /// In en, this message translates to:
+  /// **'select ringtone'**
+  String get selectRingtone;
 }
 
 class _AppLocalizationsDelegate

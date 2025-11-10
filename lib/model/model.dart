@@ -3,12 +3,12 @@ part 'model.g.dart';
 
 @HiveType(typeId: 0)
 class Task extends HiveObject {
-  Task({
-    this.isCompleted = false,
-    this.name = '',
-    this.priority = Priority.low,
-    this.reminderDateTime,
-  });
+  Task(
+      {this.isCompleted = false,
+      this.name = '',
+      this.priority = Priority.low,
+      this.reminderDateTime,
+      required this.id});
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -16,15 +16,9 @@ class Task extends HiveObject {
   @HiveField(2)
   Priority priority = Priority.low;
   @HiveField(3)
-  int _id = -1;
+  int id;
   @HiveField(4)
   String? reminderDateTime;
-
-  int get id => _id;
-
-  set id(int value) {
-    _id = value;
-  }
 
   Map<String, Object?> toMap() {
     return {
@@ -32,17 +26,17 @@ class Task extends HiveObject {
       'isCompleted': isCompleted,
       'priority': priority.index,
       'id': id,
-      'reminderDateTime':reminderDateTime
+      'reminderDateTime': reminderDateTime
     };
   }
 
   static Task fromMap(Map<String, Object?> first) {
     return Task(
-      name: first['name'] as String,
-      isCompleted: first['isCompleted'] as bool,
-      priority: Priority.values[first['priority'] as int],
-      reminderDateTime: first['reminderDateTime'] as String
-    );
+        name: first['name'] as String,
+        isCompleted: first['isCompleted'] as bool,
+        priority: Priority.values[first['priority'] as int],
+        reminderDateTime: first['reminderDateTime'] as String,
+        id: first['id'] as int);
   }
 }
 
@@ -61,6 +55,30 @@ enum Priority {
 class UserSetting {
   @HiveField(0)
   String themeIdentifer;
+  @HiveField(1)
+  int latestTaskId;
+  @HiveField(2)
+  String languageCode;
+  @HiveField(3)
+  Ringtone selectedRingtone;
 
-  UserSetting({required this.themeIdentifer});
+  UserSetting(
+      {required this.themeIdentifer,
+      this.latestTaskId = 0,
+      required this.languageCode,
+      required this.selectedRingtone});
+}
+
+@HiveType(typeId: 3)
+enum Ringtone {
+  @HiveField(0)
+  defaultalarm,
+  @HiveField(1)
+  bellalarm,
+  @HiveField(2)
+  chimealarm,
+  @HiveField(3)
+  galaxyalarm,
+  @HiveField(4)
+  funnyalarm
 }

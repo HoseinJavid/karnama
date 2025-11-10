@@ -43,12 +43,21 @@ class _MyappState extends State<Myapp> {
 
   @override
   Widget build(BuildContext context) {
-    Locale localeSystem = const Locale('fa', 'IR');
-    // Locale localeSystem =         const Locale("en", "US");
+    // Locale localeSystemD =  const Locale('fa', 'IR');
+    // Locale localeSystemD =         const Locale("en", "US");
     // Locale localeSystem = View.of(context).platformDispatcher.locale;
     String iranYekan = 'iranYekan';
     return BlocBuilder<SelectionThemeBloc, SelectionThemeState>(
       builder: (context, state) {
+        late Locale localeSystem = const Locale('fa', 'IR');
+        if (state is ThemeConfigLoaded) {
+          if (state.languageCode == 'fa') {
+            localeSystem = const Locale('fa', 'IR');
+          }
+          if (state.languageCode == 'en') {
+            localeSystem = const Locale('en', 'US');
+          }
+        }
         return MaterialApp(
           locale: localeSystem,
           debugShowCheckedModeBanner: false,
@@ -65,7 +74,14 @@ class _MyappState extends State<Myapp> {
             Locale("en", "US"),
           ],
           // home: HomeScreen(),
-          home: const SplashScreen(),
+          home: AnimatedSwitcher(
+            duration: Durations.extralong4,
+            child: SplashScreen(key: ValueKey(localeSystem.languageCode),),
+            transitionBuilder: (child, animation) => FadeTransition(
+              opacity: animation,
+              child: child,
+            ),
+          ),
           // home: EdittaskScreen(),
           theme: getTheme(
               localeSystem,

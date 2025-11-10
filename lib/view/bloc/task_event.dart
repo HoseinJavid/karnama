@@ -14,15 +14,33 @@ class TasksSearch extends TaskEvent {
 class TasksDeleteAll extends TaskEvent {}
 
 class TasksUpdate extends TaskEvent {
-  final Task task;
+  final Task oldTask;
+  final Jalali? reminderDate;
+  final TimeOfDay? reminderTime;
+  final String taskName;
+  final Priority prioritySelected;
+  final bool isCompleted;
 
-  TasksUpdate(this.task);
+  TasksUpdate(
+      {required this.oldTask,
+      required this.reminderDate,
+      required this.reminderTime,
+      required this.prioritySelected,
+      required this.taskName,
+      this.isCompleted = false});
 }
 
 class TasksCreate extends TaskEvent {
-  final Task task;
+  final Jalali? reminderDate;
+  final TimeOfDay? reminderTime;
+  final String taskName;
+  final Priority prioritySelected;
 
-  TasksCreate(this.task);
+  TasksCreate(
+      {required this.reminderDate,
+      required this.reminderTime,
+      required this.prioritySelected,
+      required this.taskName});
 }
 
 class TasksDelete extends TaskEvent {

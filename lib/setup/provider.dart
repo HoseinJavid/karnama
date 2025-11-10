@@ -8,6 +8,7 @@ import 'package:karnama/model/model.dart';
 import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
+import 'package:karnama/view/screens/settings_screen/bloc/settings_bloc.dart';
 import 'package:provider/provider.dart';
 
 class MyProvider extends StatelessWidget {
@@ -19,20 +20,26 @@ class MyProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userSettingRepository = UserSettingRepository(
+        local:
+            LocalHiveUserSettingDataSourceImpl(usersettingBox: UserSettingBox));
     return ChangeNotifierProvider(
       create: (context) =>
           Repository<Task>(injectDataSourceImpl: HiveTaskImpl(box: taskbox)),
       child: MultiBlocProvider(providers: [
         BlocProvider(
           create: (context) => TaskBloc(
+              userSettingRepository: userSettingRepository,
               repository:
                   Provider.of<Repository<Task>>(context, listen: false)),
         ),
         BlocProvider(
-          create: (context) => SelectionThemeBloc(UserSettingRepository(
-              local: LocalHiveUserSettingDataSourceImpl(
-                  usersettingBox: UserSettingBox))),
+          create: (context) => SelectionThemeBloc(userSettingRepository),
         ),
+        BlocProvider(
+          create: (context) => SettingsBloc(userSettingRepository,
+              Provider.of<Repository<Task>>(context, listen: false)),
+        )
       ], child: child),
     );
   }

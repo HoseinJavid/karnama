@@ -6,7 +6,8 @@ sealed class SelectionThemeEvent {}
 class LoadInitialThemeEvent extends SelectionThemeEvent {}
 
 class ChangeThemeEvent extends SelectionThemeEvent {
-  final String themeIdentifer;
+  final String? themeIdentifer;
+  final String? languageCode;
 
-  ChangeThemeEvent({required this.themeIdentifer});
+  ChangeThemeEvent({ this.themeIdentifer, this.languageCode});
 }

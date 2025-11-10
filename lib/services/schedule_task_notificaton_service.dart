@@ -4,31 +4,34 @@ import 'package:karnama/setup/service_locator.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
-Future<void> scheduleTaskNotification({
-  required DateTime scheduledTime,
-  required String title,
-  required String body,
-  required int id,
-}) async {
+Future<void> scheduleTaskNotification(
+    {required DateTime scheduledTime,
+    required String title,
+    required String body,
+    required int id,
+    required String ringtoneSound}) async {
+  //request permission -----------------------------------------------
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
+  //inital time zone -----------------------------------------------
   tz.initializeTimeZones();
-  var timez =await FlutterTimezone.getLocalTimezone();
-  final String timeZoneName =timez.identifier;
+  var timez = await FlutterTimezone.getLocalTimezone();
+  final String timeZoneName = timez.identifier;
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   final tz.TZDateTime tzScheduledTime =
       tz.TZDateTime.from(scheduledTime, tz.local);
 
   //detail notif
-  const NotificationDetails notificationDetails = NotificationDetails(
-    android: AndroidNotificationDetails(
-      'task_channel_id',
-      'Task Reminders',
-      channelDescription: 'Notifications for task reminders',
-      importance: Importance.max,
-      priority: Priority.high,
-      // sound: UriAndroidNotificationSound(_sound)
-    ),
-    iOS: DarwinNotificationDetails(),
+  NotificationDetails notificationDetails = NotificationDetails(
+    android: AndroidNotificationDetails('task_channel_id_$ringtoneSound', 'Task Reminders ($ringtoneSound)',
+        channelDescription: 'Notifications for task reminders',
+        importance: Importance.max,
+        priority: Priority.high,
+        sound: RawResourceAndroidNotificationSound(ringtoneSound)),
+    iOS: const DarwinNotificationDetails(),
   );
 
 //schedule notif

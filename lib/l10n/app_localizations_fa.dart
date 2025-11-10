@@ -43,7 +43,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get deleteAllTaskCaption =>
-      'آیا مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟';
+      'حاجی مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟';
 
   @override
   String get yes => 'آره';
@@ -64,7 +64,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deleteTasks => 'پاک کردن کارنما';
 
   @override
-  String get deleteTaskCaption => 'آیا مطمعنی که میخوای کارنما رو پاک کنی؟';
+  String get deleteTaskCaption => 'حاجی مطمعنی که میخوای کارنما رو بپاکی؟';
 
   @override
   String get reminderDate => 'تاریخ یادآوری';
@@ -76,7 +76,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get deleteTaskBtm => 'حذف کارنما';
 
   @override
-  String get textWelcome => 'به کارنما خوش آمدی جیگر';
+  String get textWelcome => 'به کارنما خوش آمدی عزیزم';
 
   @override
   String get warningEmptyTitle => 'عنوان نمیتونه خالی باشه چیزی بنویس';
@@ -114,4 +114,62 @@ class AppLocalizationsFa extends AppLocalizations {
   String ratingThankYouMessage(int rating) {
     return 'شما $rating ستاره امتیاز دادید. ممنون!';
   }
+
+  @override
+  String get settingsTitle => 'تنظیمات';
+
+  @override
+  String get language => 'زبان';
+
+  @override
+  String get ringtone => 'زنگ هشدار';
+
+  @override
+  String get themeSettings => 'تنظیمات تم';
+
+  @override
+  String get solidColor => 'رنگ خالص';
+
+  @override
+  String get scenery => 'منظره';
+
+  @override
+  String get appName => 'این برنامه';
+
+  @override
+  String get pastTimeWarning =>
+      'دوست عزیز، این اپ برای یادآوری کارهایی هست که قراره انجام بدی نه کارهایی که قبلاً انجام دادی. لطفاً زمان را کمی به جلو بکشید! ما نمیتونیم برای \"دیروز\" به شما هشدار بدیم.';
+
+  @override
+  String get ringtoneDefault => 'پیش‌فرض';
+
+  @override
+  String get ringtoneBell => 'Bell';
+
+  @override
+  String get ringtoneChime => 'Chime';
+
+  @override
+  String get ringtoneGalaxy => 'Galaxy';
+
+  @override
+  String get ringtoneFunny => 'Funny';
+
+  @override
+  String get confirm => 'تأیید';
+
+  @override
+  String get cancel => 'لغو';
+
+  @override
+  String get faLanguage => 'فارسی';
+
+  @override
+  String get enLanguage => 'انگلیسی';
+
+  @override
+  String get selectLanguage => 'انتخاب زبان';
+
+  @override
+  String get selectRingtone => 'انتخاب زنگ هشدار';
 }

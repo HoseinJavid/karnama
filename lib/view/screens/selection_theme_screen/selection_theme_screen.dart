@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karnama/constant.dart';
+import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/theme.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 
@@ -23,6 +24,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    AppLocalizations? appLocalizations = AppLocalizations.of(context);
     return BlocBuilder<SelectionThemeBloc, SelectionThemeState>(
       builder: (context, state) {
         return Scaffold(
@@ -34,7 +36,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
                 Navigator.pop(context);
               },
             ),
-            title: const Text('تنظیم تم', style: TextStyle(fontSize: 18)),
+            title:  Text(appLocalizations!.themeSettings, style: TextStyle(fontSize: 18)),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
@@ -44,7 +46,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // --- Section: Solid Colors  ---
-                  _buildSectionHeader(title: 'رنگ خالص', theme: theme),
+                  _buildSectionHeader(title: appLocalizations.solidColor, theme: theme),
                   const SizedBox(height: 12),
                   SizedBox(
                     height: 70, // Height for the horizontal list
@@ -85,7 +87,7 @@ class _ThemeSelectionScreenState extends State<ThemeSelectionScreen> {
                   const SizedBox(height: 30),
                   // --- Section: solid image  ---
                   _buildSectionHeader(
-                      title: 'منظره', isPremium: false, theme: theme),
+                      title: appLocalizations.scenery, isPremium: false, theme: theme),
                   const SizedBox(height: 12),
                   GridView.builder(
                     shrinkWrap: true,

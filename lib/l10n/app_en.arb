@@ -69,5 +69,24 @@
                 "example": "5"
             }
         }
-    }
+    },
+    "settingsTitle": "Settings",
+    "language": "Language",
+    "ringtone": "Ringtone",
+    "themeSettings": "Theme Settings",
+    "solidColor": "Solid Color",
+    "scenery": "Scenery",
+    "appName": "This App",
+    "pastTimeWarning": "Dear friend, this app is for reminding you of tasks you are *going* to do, not what you have *already* done. Please adjust the time slightly forward! We can't alert you for \"yesterday\".",
+    "ringtoneDefault": "Default",
+    "ringtoneBell": "Bell",
+    "ringtoneChime": "Chime",
+    "ringtoneGalaxy": "Galaxy",
+    "ringtoneFunny": "Funny",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "faLanguage": "Persian",
+    "enLanguage": "English",
+    "selectLanguage": "select language",
+    "selectRingtone": "select ringtone"
 }

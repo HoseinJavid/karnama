@@ -8,7 +8,8 @@ final class SelectionThemeInitial extends SelectionThemeState {
 
 final class ThemeConfigLoaded extends SelectionThemeState{
   final String themeIdentifer;
+  final String languageCode;
 
-  ThemeConfigLoaded({required this.themeIdentifer});
+  ThemeConfigLoaded({required this.themeIdentifer,required this.languageCode});
 
 }

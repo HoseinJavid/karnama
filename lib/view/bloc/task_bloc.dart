@@ -1,49 +1,102 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:karnama/data/repo/user_setting_repository_impl.dart';
 import 'package:karnama/model/model.dart';
 import 'package:karnama/data/repo/tesk_repository_impl.dart';
+import 'package:karnama/setup/service_locator.dart';
+import 'package:karnama/util.dart';
 import 'package:meta/meta.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+
+import '../../model/model.dart' hide Priority;
 
 part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   Repository<Task> repository;
-  TaskBloc({required this.repository}) : super(TaskInitial()) {
+  UserSettingRepository userSettingRepository;
+  TaskBloc({required this.repository, required this.userSettingRepository})
+      : super(TaskInitial()) {
     String querySearch;
-    on<TaskEvent>((event, emit) async {
-      try {
-        if (event is TasksStarted || event is TasksSearch) {
-          emit(TasksLoading());
-          if (event is TasksSearch) {
-            querySearch = event.query;
-          } else {
-            querySearch = '';
-          }
-          final tasks = await repository.getAllByKeyword(querySearch);
-          if (tasks.isEmpty) {
+    on<TaskEvent>(
+      (event, emit) async {
+        try {
+          //init start -----------------------------------------------------------------
+          if (event is TasksStarted || event is TasksSearch) {
+            emit(TasksLoading());
+            if (event is TasksSearch) {
+              querySearch = event.query;
+            } else {
+              querySearch = '';
+            }
+            final tasks = await repository.getAllByKeyword(querySearch);
+            if (tasks.isEmpty) {
+              emit(TasksEmpty());
+            } else {
+              emit(TasksSuccess(tasks));
+            }
+            //delete all -----------------------------------------------------------------
+          } else if (event is TasksDeleteAll) {
+            flutterLocalNotificationsPlugin.cancelAll();
+            flutterLocalNotificationsPlugin.cancelAllPendingNotifications();
+            await repository.deleteAll();
             emit(TasksEmpty());
-          } else {
-            emit(TasksSuccess(tasks));
+            //update -----------------------------------------------------------------
+          } else if (event is TasksUpdate) {
+            emit(TasksLoading());
+            event.oldTask.name = event.taskName;
+            event.oldTask.priority = event.prioritySelected;
+            event.oldTask.isCompleted = event.isCompleted;
+            if (event.isCompleted == true) {
+              //delete notif
+              var listPendingNotif = await flutterLocalNotificationsPlugin
+                  .pendingNotificationRequests();
+              for (var pendingNotification in listPendingNotif) {
+                if (pendingNotification.id == event.oldTask.id) {
+                  await flutterLocalNotificationsPlugin
+                      .cancel(pendingNotification.id);
+                }
+              }
+            }
+            var usersetting = await userSettingRepository.getUserSetting();
+            await setTaskReminderDateTime(event.oldTask, event.reminderDate,
+                event.reminderTime, usersetting!.selectedRingtone);
+            await repository.update(event.oldTask);
+            var t = await repository.getAll();
+            emit(TasksSuccess(t));
+            //create -----------------------------------------------------------------
+          } else if (event is TasksCreate) {
+            emit(TasksLoading());
+            // update user setting
+            var usersetting = await userSettingRepository.getUserSetting();
+            usersetting!.latestTaskId++;
+            Task task = Task(
+                name: event.taskName,
+                priority: event.prioritySelected,
+                id: usersetting.latestTaskId);
+            await userSettingRepository.updateAllUserSetting(usersetting);
+            await setTaskReminderDateTime(task, event.reminderDate,
+                event.reminderTime, usersetting.selectedRingtone);
+            await repository.add(task);
+            var t = await repository.getAll();
+            emit(TasksSuccess(t));
+            //delete -----------------------------------------------------------------
+          } else if (event is TasksDelete) {
+            emit(TasksLoading());
+            await flutterLocalNotificationsPlugin.cancel(event.task.id);
+            await repository.delete(event.task);
+            var t = await repository.getAll();
+            if (t.isEmpty) {
+              emit(TasksEmpty());
+            } else {
+              emit(TasksSuccess(t));
+            }
           }
-        } else if (event is TasksDeleteAll) {
-          await repository.deleteAll();
-          emit(TasksEmpty());
-        } else if (event is TasksUpdate) {
-          emit(TasksLoading());
-          await repository.update(event.task);
-          emit(TasksSuccess(await repository.getAll()));
-        } else if (event is TasksCreate) {
-          emit(TasksLoading());
-          await repository.add(event.task);
-          emit(TasksSuccess(await repository.getAll()));
-        } else if (event is TasksDelete) {
-          emit(TasksLoading());
-          await repository.delete(event.task);
-          emit(TasksSuccess(await repository.getAll()));
+        } catch (e) {
+          emit(TasksError('خطای نامشخص دوباره تلاش کن'));
         }
-      } catch (e) {
-        emit(TasksError('unknown error'));
-      }
-    },);
+      },
+    );
   }
 }

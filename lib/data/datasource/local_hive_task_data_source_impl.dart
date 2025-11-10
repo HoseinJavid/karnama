@@ -47,8 +47,9 @@ class HiveTaskImpl implements ILocalTaskDataSource<Task> {
 
   @override
   Future<void> add(Task data) async {
-    //sync key and id
-    data.id = await box.add(data);
+    // sync key and id
+    // data.id = await box.add(data);
+    await box.add(data);
   }
 
   @override

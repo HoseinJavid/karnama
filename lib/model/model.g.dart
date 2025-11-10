@@ -21,7 +21,8 @@ class TaskAdapter extends TypeAdapter<Task> {
       name: fields[0] as String,
       priority: fields[2] as Priority,
       reminderDateTime: fields[4] as String?,
-    ).._id = fields[3] as int;
+      id: fields[3] as int,
+    );
   }
 
   @override
@@ -35,7 +36,7 @@ class TaskAdapter extends TypeAdapter<Task> {
       ..writeByte(2)
       ..write(obj.priority)
       ..writeByte(3)
-      ..write(obj._id)
+      ..write(obj.id)
       ..writeByte(4)
       ..write(obj.reminderDateTime);
   }
@@ -63,15 +64,24 @@ class UserSettingAdapter extends TypeAdapter<UserSetting> {
     };
     return UserSetting(
       themeIdentifer: fields[0] as String,
+      latestTaskId: fields[1] as int,
+      languageCode: fields[2] as String,
+      selectedRingtone: fields[3] as Ringtone,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserSetting obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.themeIdentifer);
+      ..write(obj.themeIdentifer)
+      ..writeByte(1)
+      ..write(obj.latestTaskId)
+      ..writeByte(2)
+      ..write(obj.languageCode)
+      ..writeByte(3)
+      ..write(obj.selectedRingtone);
   }
 
   @override
@@ -125,6 +135,60 @@ class PriorityAdapter extends TypeAdapter<Priority> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is PriorityAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class RingtoneAdapter extends TypeAdapter<Ringtone> {
+  @override
+  final int typeId = 3;
+
+  @override
+  Ringtone read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return Ringtone.defaultalarm;
+      case 1:
+        return Ringtone.bellalarm;
+      case 2:
+        return Ringtone.chimealarm;
+      case 3:
+        return Ringtone.galaxyalarm;
+      case 4:
+        return Ringtone.funnyalarm;
+      default:
+        return Ringtone.defaultalarm;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, Ringtone obj) {
+    switch (obj) {
+      case Ringtone.defaultalarm:
+        writer.writeByte(0);
+        break;
+      case Ringtone.bellalarm:
+        writer.writeByte(1);
+        break;
+      case Ringtone.chimealarm:
+        writer.writeByte(2);
+        break;
+      case Ringtone.galaxyalarm:
+        writer.writeByte(3);
+        break;
+      case Ringtone.funnyalarm:
+        writer.writeByte(4);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RingtoneAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
