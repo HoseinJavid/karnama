@@ -20,4 +20,9 @@ class UserSettingRepository extends IUserSettingDataSource {
   Future<void> updateThemeUserSetting(UserSetting usersetting) async {
     local.updateThemeUserSetting(usersetting);
   }
+
+  @override
+  Future<void> updateAllUserSetting(UserSetting usersetting) async {
+    local.updateAllUserSetting(usersetting);
+  }
 }

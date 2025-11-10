@@ -29,4 +29,9 @@ class LocalHiveUserSettingDataSourceImpl extends IUserSettingDataSource {
   Future<void> initialUserSetting(UserSetting usersetting) async{
    await usersettingBox.put(keyUserSetting, usersetting);
   }
+  
+  @override
+  Future<void> updateAllUserSetting(UserSetting usersetting)async {
+   await initialUserSetting(usersetting);
+  }
 }

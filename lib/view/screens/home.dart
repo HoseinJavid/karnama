@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:karnama/constant.dart';
 import 'package:karnama/l10n/app_localizations.dart';
+import 'package:karnama/services/lunch_url.dart';
 import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 import 'package:karnama/view/screens/selection_theme_screen/selection_theme_screen.dart';
+import 'package:karnama/view/screens/settings.dart';
 import 'package:lottie/lottie.dart';
 import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/model/model.dart';
@@ -440,7 +442,7 @@ class _McwDrawerState extends State<McwDrawer> {
                 },
               ),
               ListTile(
-                leading: const Icon(Icons.format_paint),
+                leading: const Icon(CupertinoIcons.paintbrush_fill),
                 title: Text(appLocalizations.theme),
                 selected: _selectedDestination == 1,
                 onTap: () async {
@@ -450,7 +452,7 @@ class _McwDrawerState extends State<McwDrawer> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ThemeSelectionScreen(),
+                        builder: (context) => const ThemeSelectionScreen(),
                       ));
                 },
               ),
@@ -460,6 +462,7 @@ class _McwDrawerState extends State<McwDrawer> {
                 selected: _selectedDestination == 2,
                 onTap: () async {
                   await Future.delayed(Durations.medium2);
+                  lunchEmail();
                   Navigator.pop(context);
                   selectDestination(2);
                 },
@@ -472,6 +475,11 @@ class _McwDrawerState extends State<McwDrawer> {
                   await Future.delayed(Durations.medium2);
                   Navigator.pop(context);
                   selectDestination(3);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ));
                 },
               ),
             ],
@@ -567,15 +575,7 @@ class _RatingDialogState extends State<RatingDialog> {
                     ElevatedButton(
                       onPressed: _rating > 0
                           ? () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    appLocalizations
-                                        .ratingThankYouMessage(_rating),
-                                  ),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
+                              lunchBazar();
                               Navigator.of(context).pop();
                             }
                           : null,

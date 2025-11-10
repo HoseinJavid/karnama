@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     show AndroidFlutterLocalNotificationsPlugin;
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:karnama/services/schedule_task_notificaton_service.dart';
 import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/bloc/task_bloc.dart';
@@ -78,10 +79,12 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
               },
             );
             if (widget.task != null) {
-              widget.task!.name = textController.text;
-              widget.task!.priority = prioritySelected;
-              await setTaskReminderDateTime(widget.task!);
-              bloc.add(TasksUpdate(widget.task!));
+              bloc.add(TasksUpdate(
+                  oldTask: widget.task!,
+                  reminderDate: reminderDate,
+                  reminderTime: reminderTime,
+                  prioritySelected: prioritySelected,
+                  taskName: textController.text));
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
             } else {
@@ -91,13 +94,50 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                   backgroundColor: Colors.red,
                   duration: const Duration(milliseconds: 3000),
                 ));
+              } else if (reminderTime != null) {
+                if (reminderTime!.isBefore(TimeOfDay.now()) ||
+                    reminderTime!.isAtSameTimeAs(TimeOfDay.now())) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(appLocalizations.pastTimeWarning,style: const TextStyle(color: Colors.white),),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(milliseconds: 8000),
+                  ));
+                } else {
+                  //valid
+                  bloc.add(TasksCreate(
+                      reminderDate: reminderDate,
+                      reminderTime: reminderTime,
+                      taskName: textController.text,
+                      prioritySelected: prioritySelected));
+                  Navigator.of(context).pop();
+                  FocusScope.of(context).unfocus();
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      'حله وقتش که رسیدیادت میندازم رفیق',
+                      style: TextStyle(color: themeData.colorScheme.onPrimary),
+                    ),
+                    backgroundColor: themeData.colorScheme.primary,
+                    duration: const Duration(milliseconds: 6000),
+                  ));
+                }
               } else {
-                Task task =
-                    Task(name: textController.text, priority: prioritySelected);
-                await setTaskReminderDateTime(task);
-                bloc.add(TasksCreate(task));
+                bloc.add(TasksCreate(
+                    reminderDate: reminderDate,
+                    reminderTime: reminderTime,
+                    taskName: textController.text,
+                    prioritySelected: prioritySelected));
                 Navigator.of(context).pop();
                 FocusScope.of(context).unfocus();
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'حله وقتش که رسیدیادت میندازم رفیق',
+                    style: TextStyle(color: themeData.colorScheme.onPrimary),
+                  ),
+                  backgroundColor: themeData.colorScheme.primary,
+                  duration: const Duration(milliseconds: 3000),
+                ));
               }
             }
           },
@@ -119,38 +159,7 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 24, left: 24),
-              child: Row(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Localizations.localeOf(context).languageCode ==
-                                  'en'
-                              ? const Icon(CupertinoIcons.arrow_left)
-                              : const Icon(CupertinoIcons.arrow_right)),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    appLocalizations.editTask,
-                    style: themeData.textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                ],
-              ),
-            ),
+            McwAppBar(title: appLocalizations.editTask, themeData: themeData),
             const SizedBox(
               height: 32,
             ),
@@ -223,14 +232,24 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
             InkWell(
               onTap: () async {
                 reminderDate ??= Jalali.now();
-                reminderDate = await showPersianDatePicker(
-                  context: context,
-                  initialDate: reminderDate,
-                  firstDate: Jalali(1385, 8),
-                  lastDate: Jalali(1450, 9),
-                  initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
-                  // initialDatePickerMode: PersianDatePickerMode.year,
-                );
+                if (Localizations.localeOf(context).languageCode == 'fa') {
+                  reminderDate = await showPersianDatePicker(
+                    context: context,
+                    initialDate: reminderDate,
+                    firstDate: Jalali(1385, 8),
+                    lastDate: Jalali(1450, 9),
+                    initialEntryMode: PersianDatePickerEntryMode.calendarOnly,
+                    // initialDatePickerMode: PersianDatePickerMode.year,
+                  );
+                } else {
+                  var dateTime = await showDatePicker(
+                      context: context,
+                      initialDate: reminderDate!.toDateTime(),
+                      firstDate: Jalali(1385, 8).toDateTime(),
+                      lastDate: Jalali(1450, 9).toDateTime(),
+                      initialEntryMode: DatePickerEntryMode.calendarOnly);
+                  reminderDate = Jalali.fromDateTime(dateTime!);
+                }
                 setState(() {});
               },
               child: SizedBox(
@@ -247,14 +266,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                       Text(appLocalizations.reminderDate),
                       const Expanded(child: SizedBox()),
                       reminderDate != null
-                          ? Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: themeData.colorScheme.primary
-                                      .withAlpha(50)),
-                              child: Text(reminderDate!.formatFullDate()),
-                            )
+                          ? McwReminderDate(
+                              themeData: themeData, reminderDate: reminderDate)
                           : Container()
                     ],
                   ),
@@ -300,14 +313,8 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                       Text(appLocalizations.reminderTime),
                       const Expanded(child: SizedBox()),
                       reminderTime != null
-                          ? Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: themeData.colorScheme.primary
-                                      .withAlpha(50)),
-                              child: Text(reminderTime!.format(context)),
-                            )
+                          ? McwReminderTime(
+                              themeData: themeData, reminderTime: reminderTime)
                           : Container()
                     ],
                   ),
@@ -402,58 +409,95 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
       ),
     );
   }
+}
 
-  Future<void> setTaskReminderDateTime(Task task) async {
-    late DateTime result;
-    if (reminderDate != null) {
-      //convert to gregorian
-      var baseDate = reminderDate!.toDateTime();
-      if (reminderTime != null) {
-        //merge (reminderTime)TimeOfDay to gregorian
-        DateTime finalDateTime = DateTime(baseDate.year, baseDate.month,
-            baseDate.day, reminderTime!.hour, reminderTime!.minute);
-        //convert to ISO 8601
-        var combinedString = finalDateTime.toIso8601String();
-        task.reminderDateTime = combinedString;
-        result = finalDateTime;
-      } else {
-        //merge Midnight to gregorian
-        DateTime finalDateTime =
-            DateTime(baseDate.year, baseDate.month, baseDate.day, 23, 59, 59);
-        //convert to ISO 8601
-        var combinedString = finalDateTime.toIso8601String();
-        task.reminderDateTime = combinedString;
-        result = finalDateTime;
-      }
-    } else if (reminderTime != null) {
-      //create now gregorian
-      var baseDate = DateTime.now();
-      //merge (reminderTime)TimeOfDay to gregorian
-      DateTime finalDateTime = DateTime(baseDate.year, baseDate.month,
-          baseDate.day, reminderTime!.hour, reminderTime!.minute);
+class McwAppBar extends StatelessWidget {
+  const McwAppBar({super.key, required this.themeData, required this.title});
 
-      if (finalDateTime.isBefore(DateTime.now())) {
-        finalDateTime = finalDateTime.add(const Duration(days: 1));
-      }
-      //convert to ISO 8601
-      var combinedString = finalDateTime.toIso8601String();
-      task.reminderDateTime = combinedString;
-      result = finalDateTime;
-    }
-    
-        await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestNotificationsPermission();
+  final ThemeData themeData;
+  final String title;
 
-  await scheduleTaskNotification(
-    scheduledTime: result,
-    title: "یادآوری تسک",
-    body: task.name,
-    id: task.id.hashCode,
-  );
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 24, left: 24),
+      child: Row(
+        children: [
+          InkWell(
+            borderRadius: BorderRadius.circular(30),
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(50)),
+                  child: Localizations.localeOf(context).languageCode == 'en'
+                      ? const Icon(CupertinoIcons.arrow_left)
+                      : const Icon(CupertinoIcons.arrow_right)),
+            ),
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          Text(
+            title,
+            style: themeData.textTheme.titleLarge!.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
 
-    }
+class McwReminderTime extends StatelessWidget {
+  const McwReminderTime({
+    super.key,
+    required this.themeData,
+    required this.reminderTime,
+  });
+
+  final ThemeData themeData;
+  final TimeOfDay? reminderTime;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: themeData.colorScheme.primary.withAlpha(50)),
+      child: Text(reminderTime!.format(context)),
+    );
+  }
+}
+
+class McwReminderDate extends StatelessWidget {
+  const McwReminderDate({
+    super.key,
+    required this.themeData,
+    required this.reminderDate,
+  });
+
+  final ThemeData themeData;
+  final Jalali? reminderDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: themeData.colorScheme.primary.withAlpha(50)),
+      child: Text(Localizations.localeOf(context).languageCode == 'fa'
+          ? reminderDate!.formatFullDate()
+          : DateFormat('EEEE , d MMMM , yyyy')
+              .format(reminderDate!.toDateTime())),
+    );
+  }
 }
 
 class PriorityWidget extends StatefulWidget {

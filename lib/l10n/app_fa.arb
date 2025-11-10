@@ -10,18 +10,18 @@
     "low": "کم",
     "saveChanges": "ذخیره تغییرات",
     "deleteAllTasks": "پاک کردن همه کارنماها",
-    "deleteAllTaskCaption": "آیا مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟",
+    "deleteAllTaskCaption": "حاجی مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟",
     "yes": "آره",
     "no": "نه",
     "addATaskForToday": "کارنماتو همین جااضافه کن ...",
     "edit": "ویرایش",
     "delete": "حذف",
     "deleteTasks": "پاک کردن کارنما",
-    "deleteTaskCaption": "آیا مطمعنی که میخوای کارنما رو پاک کنی؟",
+    "deleteTaskCaption": "حاجی مطمعنی که میخوای کارنما رو بپاکی؟",
     "reminderDate": "تاریخ یادآوری",
     "reminderTime": "زمان یادآوری",
     "deleteTaskBtm": "حذف کارنما",
-    "textWelcome": "به کارنما خوش آمدی جیگر",
+    "textWelcome": "به کارنما خوش آمدی عزیزم",
     "warningEmptyTitle": "عنوان نمیتونه خالی باشه چیزی بنویس",
     "supportUs": "از ما حمایت کنید",
     "@supportUs": {
@@ -69,5 +69,24 @@
                 "example": "5"
             }
         }
-    }
+    },
+    "settingsTitle": "تنظیمات",
+    "language": "زبان",
+    "ringtone": "زنگ هشدار",
+    "themeSettings": "تنظیمات تم",
+    "solidColor": "رنگ خالص",
+    "scenery": "منظره",
+    "appName": "این برنامه",
+    "pastTimeWarning": "دوست عزیز، این اپ برای یادآوری کارهایی هست که قراره انجام بدی نه کارهایی که قبلاً انجام دادی. لطفاً زمان را کمی به جلو بکشید! ما نمیتونیم برای \"دیروز\" به شما هشدار بدیم.",
+    "ringtoneDefault": "پیش‌فرض",
+    "ringtoneBell": "Bell",
+    "ringtoneChime": "Chime",
+    "ringtoneGalaxy": "Galaxy",
+    "ringtoneFunny": "Funny",
+    "confirm": "تأیید",
+    "cancel": "لغو",
+    "faLanguage": "فارسی",
+    "enLanguage": "انگلیسی",
+    "selectLanguage": "انتخاب زبان",
+    "selectRingtone": "انتخاب زنگ هشدار"
 }

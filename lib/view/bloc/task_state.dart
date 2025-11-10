@@ -9,7 +9,7 @@ class TasksLoading extends TaskState {}
 
 class TasksSuccess extends TaskState {
   final List<Task> tasks;
-  TasksSuccess(this.tasks);
+  TasksSuccess(this.tasks,);
 }
 
 class TasksEmpty extends TaskState {}

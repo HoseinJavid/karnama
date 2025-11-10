@@ -6,4 +6,6 @@ abstract class IUserSettingDataSource {
   Future<UserSetting?> getUserSetting();
   Future<void> updateThemeUserSetting(UserSetting usersetting);
   Future<void> initialUserSetting(UserSetting usersetting);
+  Future<void> updateAllUserSetting(UserSetting usersetting);
+
 }
