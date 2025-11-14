@@ -24,15 +24,32 @@ Future<void> scheduleTaskNotification(
   final tz.TZDateTime tzScheduledTime =
       tz.TZDateTime.from(scheduledTime, tz.local);
 
-  //detail notif
+  //detail notif for task
   NotificationDetails notificationDetails = NotificationDetails(
-    android: AndroidNotificationDetails('task_channel_id_$ringtoneSound', 'Task Reminders ($ringtoneSound)',
+    android: AndroidNotificationDetails(
+        'task_channel_id_$ringtoneSound', 'Task Reminders ($ringtoneSound)',
         channelDescription: 'Notifications for task reminders',
         importance: Importance.max,
         priority: Priority.high,
         sound: RawResourceAndroidNotificationSound(ringtoneSound)),
     iOS: const DarwinNotificationDetails(),
   );
+
+//detail for start foreground
+  var androidNotificationDetailsFourground = AndroidNotificationDetails(
+    'forground_channel_id_$ringtoneSound',
+    'foregorund  ($ringtoneSound)',
+    channelDescription: 'Notifications for start forground service',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+
+  //start foreground service
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()!
+      .startForegroundService(1, 'شروع زمان بندی کارنما', null,
+          notificationDetails: androidNotificationDetailsFourground);
 
 //schedule notif
   await flutterLocalNotificationsPlugin.zonedSchedule(
