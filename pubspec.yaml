@@ -2,7 +2,7 @@ name: karnama
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ^3.5.4
@@ -34,6 +34,7 @@ dependencies:
   url_launcher: ^6.3.2
   android_intent_plus: ^6.0.0
   rename_app: ^1.6.5
+  open_settings_plus: ^0.4.0
 
   
 dev_dependencies:

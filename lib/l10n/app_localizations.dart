@@ -421,6 +421,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'select ringtone'**
   String get selectRingtone;
+
+  /// No description provided for @batteryOptimizationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Battery Optimization'**
+  String get batteryOptimizationTitle;
+
+  /// No description provided for @batteryOptimizationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.'**
+  String get batteryOptimizationMessage;
+
+  /// No description provided for @batteryOptimizationLaterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get batteryOptimizationLaterButton;
+
+  /// No description provided for @batteryOptimizationDisableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable'**
+  String get batteryOptimizationDisableButton;
 }
 
 class _AppLocalizationsDelegate

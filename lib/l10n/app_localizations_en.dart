@@ -175,4 +175,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectRingtone => 'select ringtone';
+
+  @override
+  String get batteryOptimizationTitle => 'Disable Battery Optimization';
+
+  @override
+  String get batteryOptimizationMessage =>
+      'To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.';
+
+  @override
+  String get batteryOptimizationLaterButton => 'Later';
+
+  @override
+  String get batteryOptimizationDisableButton => 'Disable';
 }

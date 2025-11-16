@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' hide Priority;
 import 'package:karnama/data/repo/user_setting_repository_impl.dart';
 import 'package:karnama/model/model.dart';
 import 'package:karnama/data/repo/tesk_repository_impl.dart';
@@ -40,6 +41,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           } else if (event is TasksDeleteAll) {
             flutterLocalNotificationsPlugin.cancelAll();
             flutterLocalNotificationsPlugin.cancelAllPendingNotifications();
+            flutterLocalNotificationsPlugin
+                .resolvePlatformSpecificImplementation<
+                    AndroidFlutterLocalNotificationsPlugin>()!
+                .stopForegroundService();
             await repository.deleteAll();
             emit(TasksEmpty());
             //update -----------------------------------------------------------------
@@ -90,6 +95,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             await repository.delete(event.task);
             var t = await repository.getAll();
             if (t.isEmpty) {
+              flutterLocalNotificationsPlugin
+                  .resolvePlatformSpecificImplementation<
+                      AndroidFlutterLocalNotificationsPlugin>()!
+                  .stopForegroundService();
               emit(TasksEmpty());
             } else {
               emit(TasksSuccess(t));

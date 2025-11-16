@@ -31,13 +31,15 @@ Future<void> scheduleTaskNotification(
         channelDescription: 'Notifications for task reminders',
         importance: Importance.max,
         priority: Priority.high,
+        playSound: true,
+        audioAttributesUsage: AudioAttributesUsage.alarm,
         sound: RawResourceAndroidNotificationSound(ringtoneSound)),
     iOS: const DarwinNotificationDetails(),
   );
 
 //detail for start foreground
   var androidNotificationDetailsFourground = AndroidNotificationDetails(
-    'forground_channel_id_$ringtoneSound',
+    'foreground_channel_id_$ringtoneSound',
     'foregorund  ($ringtoneSound)',
     channelDescription: 'Notifications for start forground service',
     importance: Importance.max,
@@ -45,7 +47,7 @@ Future<void> scheduleTaskNotification(
   );
 
   //start foreground service
-  flutterLocalNotificationsPlugin
+await  flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .startForegroundService(1, 'شروع زمان بندی کارنما', null,

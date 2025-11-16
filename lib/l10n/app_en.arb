@@ -89,5 +89,10 @@
     "faLanguage": "Persian",
     "enLanguage": "English",
     "selectLanguage": "select language",
-    "selectRingtone": "select ringtone"
+    "selectRingtone": "select ringtone",
+
+    "batteryOptimizationTitle": "Disable Battery Optimization",
+    "batteryOptimizationMessage": "To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.",
+    "batteryOptimizationLaterButton": "Later",
+    "batteryOptimizationDisableButton": "Disable"
 }
