@@ -183,7 +183,8 @@ class _TaskItemState extends State<TaskItem> {
         reminderTime: null,
         prioritySelected: widget.task.priority,
         taskName: widget.task.name,
-        isCompleted: !widget.task.isCompleted));
+        isCompleted: !widget.task.isCompleted,
+        taskDesceription: widget.task.desceription!));
     // widget.repository.toggleTask(widget.index, widget.task);
   }
 }

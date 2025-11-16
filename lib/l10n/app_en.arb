@@ -13,7 +13,8 @@
     "deleteAllTaskCaption": "Do you want to delete all tasks?",
     "yes": "Yes",
     "no": "No",
-    "addATaskForToday": "add a task for today ...",
+    "addTitleTask": "add a task for today ...",
+    "addDiscriptionTask": "add a desceription for today ...",
     "edit": "Edit",
     "delete": "Delete",
     "deleteTasks": "Delete Task",
@@ -88,5 +89,10 @@
     "faLanguage": "Persian",
     "enLanguage": "English",
     "selectLanguage": "select language",
-    "selectRingtone": "select ringtone"
+    "selectRingtone": "select ringtone",
+
+    "batteryOptimizationTitle": "Disable Battery Optimization",
+    "batteryOptimizationMessage": "To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.",
+    "batteryOptimizationLaterButton": "Later",
+    "batteryOptimizationDisableButton": "Disable"
 }

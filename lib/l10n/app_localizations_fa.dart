@@ -52,7 +52,10 @@ class AppLocalizationsFa extends AppLocalizations {
   String get no => 'نه';
 
   @override
-  String get addATaskForToday => 'کارنماتو همین جااضافه کن ...';
+  String get addTitleTask => 'عنوان کارنما رو اینجا وارد کن ...';
+
+  @override
+  String get addDiscriptionTask => 'توضیحات کارنما رو اینجا وارد کن ...';
 
   @override
   String get edit => 'ویرایش';
@@ -172,4 +175,17 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get selectRingtone => 'انتخاب زنگ هشدار';
+
+  @override
+  String get batteryOptimizationTitle => 'غیر فعال سازی بهینه‌ساز باتری';
+
+  @override
+  String get batteryOptimizationMessage =>
+      'برای اطمینان از دریافت به موقع و بدون اختلال نوتیفیکیشن‌های مربوط به کارنما و یادآوری‌های شما، لطفاً بهینه‌ساز باتری دستگاه خود را برای اپلیکیشن کارنما غیرفعال کنید. بهینه‌ساز باتری ممکن است باعث تأخیر در دریافت نوتیفیکیشن‌ها شود.';
+
+  @override
+  String get batteryOptimizationLaterButton => 'بعداً';
+
+  @override
+  String get batteryOptimizationDisableButton => 'غیرفعال‌سازی';
 }

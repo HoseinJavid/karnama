@@ -182,11 +182,17 @@ abstract class AppLocalizations {
   /// **'No'**
   String get no;
 
-  /// No description provided for @addATaskForToday.
+  /// No description provided for @addTitleTask.
   ///
   /// In en, this message translates to:
   /// **'add a task for today ...'**
-  String get addATaskForToday;
+  String get addTitleTask;
+
+  /// No description provided for @addDiscriptionTask.
+  ///
+  /// In en, this message translates to:
+  /// **'add a desceription for today ...'**
+  String get addDiscriptionTask;
 
   /// No description provided for @edit.
   ///
@@ -415,6 +421,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'select ringtone'**
   String get selectRingtone;
+
+  /// No description provided for @batteryOptimizationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable Battery Optimization'**
+  String get batteryOptimizationTitle;
+
+  /// No description provided for @batteryOptimizationMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.'**
+  String get batteryOptimizationMessage;
+
+  /// No description provided for @batteryOptimizationLaterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get batteryOptimizationLaterButton;
+
+  /// No description provided for @batteryOptimizationDisableButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable'**
+  String get batteryOptimizationDisableButton;
 }
 
 class _AppLocalizationsDelegate

@@ -13,7 +13,8 @@
     "deleteAllTaskCaption": "حاجی مطمعنی که میخوای همه ی کارنماهارو پاک کنی؟",
     "yes": "آره",
     "no": "نه",
-    "addATaskForToday": "کارنماتو همین جااضافه کن ...",
+    "addTitleTask": "عنوان کارنما رو اینجا وارد کن ...",
+    "addDiscriptionTask":"توضیحات کارنما رو اینجا وارد کن ...",
     "edit": "ویرایش",
     "delete": "حذف",
     "deleteTasks": "پاک کردن کارنما",
@@ -88,5 +89,10 @@
     "faLanguage": "فارسی",
     "enLanguage": "انگلیسی",
     "selectLanguage": "انتخاب زبان",
-    "selectRingtone": "انتخاب زنگ هشدار"
+    "selectRingtone": "انتخاب زنگ هشدار",
+    
+    "batteryOptimizationTitle": "غیر فعال سازی بهینه‌ساز باتری",
+    "batteryOptimizationMessage": "برای اطمینان از دریافت به موقع و بدون اختلال نوتیفیکیشن‌های مربوط به کارنما و یادآوری‌های شما، لطفاً بهینه‌ساز باتری دستگاه خود را برای اپلیکیشن کارنما غیرفعال کنید. بهینه‌ساز باتری ممکن است باعث تأخیر در دریافت نوتیفیکیشن‌ها شود.",
+    "batteryOptimizationLaterButton": "بعداً",
+    "batteryOptimizationDisableButton": "غیرفعال‌سازی"
 }

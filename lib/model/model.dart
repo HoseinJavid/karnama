@@ -8,7 +8,8 @@ class Task extends HiveObject {
       this.name = '',
       this.priority = Priority.low,
       this.reminderDateTime,
-      required this.id});
+      required this.id,
+      required this.desceription});
   @HiveField(0)
   String name;
   @HiveField(1)
@@ -19,6 +20,8 @@ class Task extends HiveObject {
   int id;
   @HiveField(4)
   String? reminderDateTime;
+  @HiveField(5)
+  String? desceription;
 
   Map<String, Object?> toMap() {
     return {
@@ -36,7 +39,8 @@ class Task extends HiveObject {
         isCompleted: first['isCompleted'] as bool,
         priority: Priority.values[first['priority'] as int],
         reminderDateTime: first['reminderDateTime'] as String,
-        id: first['id'] as int);
+        id: first['id'] as int,
+        desceription: first['desceription'] as String,);
   }
 }
 

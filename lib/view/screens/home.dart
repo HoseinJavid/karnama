@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:karnama/constant.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/services/lunch_url.dart';
+import 'package:karnama/services/platform_service.dart';
 import 'package:karnama/setup/service_locator.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 import 'package:karnama/view/screens/selection_theme_screen/selection_theme_screen.dart';
@@ -16,6 +17,7 @@ import 'package:karnama/model/model.dart';
 import 'package:karnama/data/repo/tesk_repository_impl.dart';
 import 'package:karnama/view/editTask.dart';
 import 'package:karnama/widgets/task.dart';
+import 'package:open_settings_plus/core/open_settings_plus.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,6 +35,34 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<TaskBloc>().add(TasksStarted());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!await isBatteryOptimizationIgnored()) {
+        var appLocalizations = AppLocalizations.of(context);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(appLocalizations!.batteryOptimizationTitle),
+            content: Text(
+                appLocalizations!.batteryOptimizationMessage),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(appLocalizations.batteryOptimizationLaterButton)),
+              ElevatedButton(
+                  // style: ,
+                  onPressed: () async {
+                    await openBatteryOptimizationSettings();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(appLocalizations.batteryOptimizationDisableButton))
+            ],
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -110,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               IconButton(
                                   onPressed: () {
                                     scaffoldState.currentState!.openEndDrawer();
-                                    // scaffoldState.currentState!.openDrawer();
                                   },
                                   icon: Icon(
                                     CupertinoIcons.list_bullet,
@@ -138,7 +167,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Expanded(
-                    child: BlocBuilder<TaskBloc, TaskState>(
+                    child: BlocConsumer<TaskBloc, TaskState>(
+                      listener:
+                          (BuildContext context, TaskState state) async {},
                       builder: (context, state) {
                         if (state is TasksLoading) {
                           return const Center(

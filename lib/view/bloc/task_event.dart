@@ -20,6 +20,7 @@ class TasksUpdate extends TaskEvent {
   final String taskName;
   final Priority prioritySelected;
   final bool isCompleted;
+  final String taskDesceription;
 
   TasksUpdate(
       {required this.oldTask,
@@ -27,7 +28,8 @@ class TasksUpdate extends TaskEvent {
       required this.reminderTime,
       required this.prioritySelected,
       required this.taskName,
-      this.isCompleted = false});
+      this.isCompleted = false,
+      required this.taskDesceription});
 }
 
 class TasksCreate extends TaskEvent {
@@ -35,12 +37,14 @@ class TasksCreate extends TaskEvent {
   final TimeOfDay? reminderTime;
   final String taskName;
   final Priority prioritySelected;
+  final String taskDesceription;
 
   TasksCreate(
       {required this.reminderDate,
       required this.reminderTime,
       required this.prioritySelected,
-      required this.taskName});
+      required this.taskName,
+      required this.taskDesceription});
 }
 
 class TasksDelete extends TaskEvent {
