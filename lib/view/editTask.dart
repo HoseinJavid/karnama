@@ -94,15 +94,31 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
               Navigator.of(context).pop();
               FocusScope.of(context).unfocus();
             } else {
-              if (titleTaskController.text.isEmpty) {
+              // The code assumes `reminderDate` and `reminderTime` are non-null when entering the 'else if (reminderTime != null)' block.
+              // To ensure safety, we use '?' for optional chaining where necessary.
+              final String taskTitle = titleTaskController.text.trim();
+              if (taskTitle.isEmpty) {
+                // Check 1: Empty Title
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(appLocalizations.warningEmptyTitle),
                   backgroundColor: Colors.red,
                   duration: const Duration(milliseconds: 3000),
                 ));
-              } else if (reminderTime != null) {
-                if (reminderTime!.isBefore(TimeOfDay.now()) ||
-                    reminderTime!.isAtSameTimeAs(TimeOfDay.now())) {
+              } else if (reminderDate != null && reminderTime != null) {
+                // Check 2: Reminder is set (Date and Time are available)
+                // Create a combined JalaliDateTime object from the selected date and time.
+                final Jalali selectedDateTime = Jalali(
+                  reminderDate!.year,
+                  reminderDate!.month,
+                  reminderDate!.day,
+                  reminderTime!.hour,
+                  reminderTime!.minute,
+                );
+
+                // Check 3: Is the selected time in the past?
+                // Jalali.now() includes the current hour and minute, allowing for a single comprehensive check.
+                if (selectedDateTime.isBefore(Jalali.now())) {
+                  // If true, show the past time warning
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       appLocalizations.pastTimeWarning,
@@ -112,39 +128,18 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     duration: const Duration(milliseconds: 8000),
                   ));
                 } else {
-                  //valid
+                  // Valid: Time is in the future
                   bloc.add(TasksCreate(
                       reminderDate: reminderDate,
                       reminderTime: reminderTime,
-                      taskName: titleTaskController.text,
+                      taskName: taskTitle,
                       prioritySelected: prioritySelected,
                       taskDesceription: desceriptionTaskController.text));
+
                   Navigator.of(context).pop();
                   FocusScope.of(context).unfocus();
 
-                  if (reminderDate != null || reminderTime != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                        'حله وقتش که رسیدیادت میندازم رفیق',
-                        style:
-                            TextStyle(color: themeData.colorScheme.onPrimary),
-                      ),
-                      backgroundColor: themeData.colorScheme.primary,
-                      duration: const Duration(milliseconds: 3000),
-                    ));
-                  }
-                }
-              } else {
-                bloc.add(TasksCreate(
-                    reminderDate: reminderDate,
-                    reminderTime: reminderTime,
-                    taskName: titleTaskController.text,
-                    prioritySelected: prioritySelected,
-                    taskDesceription: desceriptionTaskController.text));
-                Navigator.of(context).pop();
-                FocusScope.of(context).unfocus();
-
-                if (reminderDate != null || reminderTime != null) {
+                  // Show success message only if a reminder was set (already checked above)
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(
                       'حله وقتش که رسیدیادت میندازم رفیق',
@@ -154,6 +149,29 @@ class _EdittaskScreenState extends State<EdittaskScreen> {
                     duration: const Duration(milliseconds: 3000),
                   ));
                 }
+              } else {
+                // Check 4: Reminder is NOT set (reminderTime is null or reminderDate is null)
+                // Create task without reminder details
+                bloc.add(TasksCreate(
+                    reminderDate: reminderDate,
+                    reminderTime: reminderTime,
+                    taskName: taskTitle,
+                    prioritySelected: prioritySelected,
+                    taskDesceription: desceriptionTaskController.text));
+
+                Navigator.of(context).pop();
+                FocusScope.of(context).unfocus();
+
+                // Show success message if a reminder was set (though time/date may be null here, the original logic kept this success message outside the reminder check)
+                // For tasks without reminders, showing a simple success confirmation is typical.
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    'حله وقتش که رسیدیادت میندازم رفیق', // Assuming this message is acceptable for tasks without reminders too
+                    style: TextStyle(color: themeData.colorScheme.onPrimary),
+                  ),
+                  backgroundColor: themeData.colorScheme.primary,
+                  duration: const Duration(milliseconds: 3000),
+                ));
               }
             }
           },
