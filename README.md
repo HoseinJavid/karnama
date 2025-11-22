@@ -13,6 +13,9 @@
 - Fully responsive UI
 - Offline support
 
+## Online Preview
+ https://hoseinjavid.github.io/karnama-preview/
+
 ## Preview
 ![demo](https://github.com/HoseinJavid/karnama/blob/main/demo/demo-fa.gif)
 ![demo](https://github.com/HoseinJavid/karnama/blob/main/demo/demo-en.gif)
