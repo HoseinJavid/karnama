@@ -43,8 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           context: context,
           builder: (context) => AlertDialog(
             title: Text(appLocalizations!.batteryOptimizationTitle),
-            content: Text(
-                appLocalizations!.batteryOptimizationMessage),
+            content: Text(appLocalizations!.batteryOptimizationMessage),
             actions: [
               TextButton(
                   onPressed: () {
@@ -57,7 +56,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     await openBatteryOptimizationSettings();
                     Navigator.of(context).pop();
                   },
-                  child: Text(appLocalizations.batteryOptimizationDisableButton))
+                  child:
+                      Text(appLocalizations.batteryOptimizationDisableButton))
             ],
           ),
         );
@@ -513,6 +513,7 @@ class _McwDrawerState extends State<McwDrawer> {
                       ));
                 },
               ),
+              
             ],
           ),
         );

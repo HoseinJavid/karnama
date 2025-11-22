@@ -74,7 +74,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ringtone: selectedRingtone));
                     }
                   },
-                )
+                ),
+                ListTile(
+                leading: const Icon(CupertinoIcons.doc_text_fill),
+                title: Text(appLocalizations.versionName('1.0.0')),
+                onTap: () async {},
+              )
               ],
             )
           ],

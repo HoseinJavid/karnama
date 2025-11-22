@@ -188,4 +188,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get batteryOptimizationDisableButton => 'Disable';
+
+  @override
+  String versionName(String versionCode) {
+    return 'version: $versionCode';
+  }
 }

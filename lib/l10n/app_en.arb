@@ -94,5 +94,13 @@
     "batteryOptimizationTitle": "Disable Battery Optimization",
     "batteryOptimizationMessage": "To ensure timely and uninterrupted reception of your Karnama notifications and reminders, please disable battery optimization for the Karnama application. Battery optimization may cause delays in receiving notifications.",
     "batteryOptimizationLaterButton": "Later",
-    "batteryOptimizationDisableButton": "Disable"
+    "batteryOptimizationDisableButton": "Disable",
+    "versionName": "version: {versionCode}",
+    "@versionName": {
+        "placeholders": {
+            "versionCode": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -445,6 +445,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Disable'**
   String get batteryOptimizationDisableButton;
+
+  /// No description provided for @versionName.
+  ///
+  /// In en, this message translates to:
+  /// **'version: {versionCode}'**
+  String versionName(String versionCode);
 }
 
 class _AppLocalizationsDelegate

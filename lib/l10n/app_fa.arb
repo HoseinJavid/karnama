@@ -94,5 +94,13 @@
     "batteryOptimizationTitle": "غیر فعال سازی بهینه‌ساز باتری",
     "batteryOptimizationMessage": "برای اطمینان از دریافت به موقع و بدون اختلال نوتیفیکیشن‌های مربوط به کارنما و یادآوری‌های شما، لطفاً بهینه‌ساز باتری دستگاه خود را برای اپلیکیشن کارنما غیرفعال کنید. بهینه‌ساز باتری ممکن است باعث تأخیر در دریافت نوتیفیکیشن‌ها شود.",
     "batteryOptimizationLaterButton": "بعداً",
-    "batteryOptimizationDisableButton": "غیرفعال‌سازی"
+    "batteryOptimizationDisableButton": "غیرفعال‌سازی",
+       "versionName": "نسخه: {versionCode}",
+    "@versionName": {
+        "placeholders": {
+            "versionCode": {
+                "type": "String"
+            }
+        }
+    }
 }

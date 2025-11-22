@@ -148,7 +148,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
   'Landscape_3_Minimal': LandscapeTheme(
       defultAnimUri: 'assets/animation/home/Solid_Grey.json',
       themeIdentifer: 'Landscape_3_Minimal',
-      imageUri: 'assets/img/theme/theme-3.jpeg',
+      imageUri: 'assets/img/theme/theme-3.jpg',
       myCustomAppTheme: MyCustomAppTheme(
           surfaceColor: const Color(0xffe3e6e9),
           onSurfaceColor: const Color(0xff000000),
@@ -160,7 +160,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
   'Landscape_4_Mountain': LandscapeTheme(
       defultAnimUri: 'assets/animation/home/Solid_Grey.json',
       themeIdentifer: 'Landscape_4_Mountain',
-      imageUri: 'assets/img/theme/theme-4.jpeg',
+      imageUri: 'assets/img/theme/theme-4.jpg',
       myCustomAppTheme: MyCustomAppTheme(
           surfaceColor: const Color(0xff626e75),
           onSurfaceColor: const Color(0xffffffff),
@@ -172,7 +172,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
   'Landscape_5_Sunset': LandscapeTheme(
       defultAnimUri: 'assets/animation/home/Solid_Grey.json',
       themeIdentifer: 'Landscape_5_Sunset',
-      imageUri: 'assets/img/theme/theme-5.jpeg',
+      imageUri: 'assets/img/theme/theme-5.jpg',
       myCustomAppTheme: MyCustomAppTheme(
           surfaceColor: const Color(0xff4d565e),
           onSurfaceColor: const Color(0xffffffff),
@@ -184,7 +184,7 @@ final Map<String, LandscapeTheme> landscapeThemes = {
   'Landscape_6_Lake': LandscapeTheme(
       defultAnimUri: 'assets/animation/home/Solid_Grey.json',
       themeIdentifer: 'Landscape_6_Lake',
-      imageUri: 'assets/img/theme/theme-6.jpeg',
+      imageUri: 'assets/img/theme/theme-6.jpg',
       myCustomAppTheme: MyCustomAppTheme(
           surfaceColor: const Color(0xfffbf0d8),
           onSurfaceColor: const Color(0xff000e19),
