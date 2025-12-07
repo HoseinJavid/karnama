@@ -3,10 +3,10 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - master  # یا main، بسته به نام شاخه اصلی شما
+      - main  # یا main، بسته به نام شاخه اصلی شما
   pull_request:
     branches:
-      - master  # یا main
+      - main  # یا main
   workflow_dispatch:
 
 jobs:
