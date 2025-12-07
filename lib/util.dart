@@ -1,12 +1,14 @@
+import 'dart:typed_data';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:karnama/model/model.dart';
+import 'package:karnama/services/platform_service.dart';
 import 'package:karnama/services/schedule_task_notificaton_service.dart';
-import 'package:karnama/setup/service_locator.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
-Future<void> setTaskReminderDateTime(
-    Task task, Jalali? reminderDate, TimeOfDay? reminderTime,Ringtone ringtoneSound) async {
+Future<void> setTaskReminderDateTime(Task task, Jalali? reminderDate,
+    TimeOfDay? reminderTime, Ringtone ringtoneSound) async {
   late DateTime result;
   if (reminderDate != null) {
     //convert to gregorian
@@ -29,14 +31,12 @@ Future<void> setTaskReminderDateTime(
       result = finalDateTime;
     }
 
-
     await scheduleTaskNotification(
-      scheduledTime: result,
-      title: "یادآوری تسک",
-      body: task.name,
-      id: task.id,
-      ringtoneSound: ringtoneSound.name
-    );
+        scheduledTime: result,
+        title: "یادآوری تسک",
+        body: task.name,
+        id: task.id,
+        ringtoneSound: ringtoneSound.name);
   } else if (reminderTime != null) {
     //create now gregorian
     var baseDate = DateTime.now();
@@ -52,14 +52,12 @@ Future<void> setTaskReminderDateTime(
     task.reminderDateTime = combinedString;
     result = finalDateTime;
 
-
     await scheduleTaskNotification(
-      scheduledTime: result,
-      title: "یادآوری تسک",
-      body: task.name,
-      id: task.id,
-      ringtoneSound: ringtoneSound.name
-    );
+        scheduledTime: result,
+        title: "یادآوری تسک",
+        body: task.name,
+        id: task.id,
+        ringtoneSound: ringtoneSound.name);
   }
 }
 
@@ -81,4 +79,19 @@ String formatDateTime(String dateTimeISO8601, BuildContext context) {
 
     return '${parsedDateTime.toGregorian().formatter.mm} ${parsedDateTime.toGregorian().formatter.mN}  ${recoveredTime.format(context)}';
   }
+}
+
+final _player = AudioPlayer();
+
+Future<void> playRawFile(String fileName) async {
+  final Uint8List? audioBytes = await readRawFile(fileName);
+
+  if (audioBytes != null) {
+    await _player.setSourceBytes(audioBytes);
+    await _player.resume();
+  }
+}
+
+Future<void> stopPlayer() async {
+  return await _player.stop();
 }

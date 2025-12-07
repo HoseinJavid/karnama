@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/model/model.dart';
-import 'package:karnama/view/bloc/task_bloc.dart';
+import 'package:karnama/util.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 
 // enum Language { fa, en }
@@ -135,6 +135,7 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                       setState(() {
                         selectedRingtone = value;
                       });
+                      playRawFile(value!.name);
                     },
                   ),
                   RadioListTile<Ringtone>(
@@ -145,6 +146,7 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                       setState(() {
                         selectedRingtone = value;
                       });
+                      playRawFile(value!.name);
                     },
                   ),
                   RadioListTile<Ringtone>(
@@ -155,6 +157,7 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                       setState(() {
                         selectedRingtone = value;
                       });
+                      playRawFile(value!.name);
                     },
                   ),
                   RadioListTile<Ringtone>(
@@ -165,6 +168,7 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                       setState(() {
                         selectedRingtone = value;
                       });
+                      playRawFile(value!.name);
                     },
                   ),
                   const Spacer(),
@@ -176,6 +180,8 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop(null);
+                            stopPlayer();
+
                           },
                           child: Text(appLocalizations.cancel),
                         ),
@@ -183,6 +189,7 @@ Future<Ringtone?> showRingtoneDialog(BuildContext context) async {
                         ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(selectedRingtone);
+                            stopPlayer();
                           },
                           child: Text(appLocalizations.confirm),
                         ),

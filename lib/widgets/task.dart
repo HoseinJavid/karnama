@@ -5,6 +5,7 @@ import 'package:karnama/util.dart';
 import 'package:karnama/view/bloc/task_bloc.dart';
 import 'package:karnama/model/model.dart';
 import 'package:karnama/data/repo/tesk_repository_impl.dart';
+import 'package:karnama/view/editTask.dart';
 import 'package:karnama/widgets/buttomSheet.dart';
 
 class TaskItem extends StatefulWidget {
@@ -55,7 +56,6 @@ class _TaskItemState extends State<TaskItem> {
             ),
             Container(
               decoration: BoxDecoration(
-                // color: widget.themeData.colorScheme.surfaceContainerHigh,
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5),
@@ -66,8 +66,6 @@ class _TaskItemState extends State<TaskItem> {
                     blurRadius: 10,
                   )
                 ],
-
-                // color: Colors.black,
               ),
               height: 65,
               width: MediaQuery.sizeOf(context).width - 32 - 8,
@@ -79,7 +77,7 @@ class _TaskItemState extends State<TaskItem> {
                         color: Colors.black.withOpacity(0.10), width: 2),
                     value: widget.task.isCompleted,
                     onChanged: (value) {
-                      setState(() {});
+                      update_isComplate_dbTask(bloc);
                     },
                   ),
                   Column(
@@ -100,19 +98,8 @@ class _TaskItemState extends State<TaskItem> {
                               : null,
                           decorationColor: Theme.of(context).primaryColor,
                           decorationThickness: 3,
-                          // decorationStyle: TextDecorationStyle.wavy
                         ),
                       ),
-                      // Positioned(
-                      //   top: 15,
-                      //   child: Container(
-                      //     width: 200,
-                      //     height: 2,
-                      //     color: Colors.black,
-                      //   ),
-                      // )
-                      // ],
-                      // ),
                       widget.task.reminderDateTime != null
                           ? Row(
                               children: [
@@ -144,26 +131,28 @@ class _TaskItemState extends State<TaskItem> {
               ),
             ),
             Positioned.fill(
+                right: 50,
                 child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onLongPress: () {
-                  CustomButtomSheet.showCustomModalBottomSheet(
-                      context, widget.task, widget.repository);
-                },
-                onTap: () {
-                  // setState(() {
-                  //   ischecked = ! ischecked;
-                  update_isComplate_dbTask(bloc);
-                  // });
-                },
-                splashColor:
-                    widget.themeData.colorScheme.primary.withOpacity(0.08),
-                highlightColor:
-                    widget.themeData.colorScheme.primary.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(5),
-              ),
-            )),
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onLongPress: () {
+                      CustomButtomSheet.showCustomModalBottomSheet(
+                          context, widget.task, widget.repository);
+                    },
+                    onTap: () {
+                      // update_isComplate_dbTask(bloc);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            EdittaskScreen(repository: widget.repository,task: widget.task,),
+                      ));
+                    },
+                    splashColor:
+                        widget.themeData.colorScheme.primary.withOpacity(0.08),
+                    highlightColor:
+                        widget.themeData.colorScheme.primary.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                )),
           ],
         ),
         const SizedBox(

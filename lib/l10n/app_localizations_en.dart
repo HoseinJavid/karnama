@@ -193,4 +193,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String versionName(String versionCode) {
     return 'version: $versionCode';
   }
+
+  @override
+  String get priorityTitle => 'priority karnama';
 }

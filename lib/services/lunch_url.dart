@@ -10,12 +10,12 @@ Future<void> launchMyUrl(String url) async {
 }
 
 Future<void> lunchBazar() async {
-  var uri = Uri.parse('bazaar://details?id=ir.mci.ecareapp');
+  var uri = Uri.parse('bazaar://details?id=com.hoseinjavid.karnama');
   if (await canLaunchUrl(uri)) {
     await launchUrl(uri);
   } else {
     print('Bazaar app not installed. Trying web...');
-    var webUri = Uri.parse('https://cafebazaar.ir/app/ir.mci.ecareapp');
+    var webUri = Uri.parse('https://cafebazaar.ir/app/com.hoseinjavid.karnama');
     await launchUrl(webUri);
   }
 

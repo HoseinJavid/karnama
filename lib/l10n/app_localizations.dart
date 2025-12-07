@@ -451,6 +451,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'version: {versionCode}'**
   String versionName(String versionCode);
+
+  /// No description provided for @priorityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'priority karnama'**
+  String get priorityTitle;
 }
 
 class _AppLocalizationsDelegate

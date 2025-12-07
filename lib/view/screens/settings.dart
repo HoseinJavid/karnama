@@ -1,9 +1,11 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:karnama/l10n/app_localizations.dart';
 import 'package:karnama/services/schedule_task_notificaton_service.dart';
+import 'package:karnama/util.dart';
 import 'package:karnama/view/editTask.dart';
 import 'package:karnama/view/screens/selection_theme_screen/bloc/selection_theme_bloc.dart';
 import 'package:karnama/view/screens/selection_theme_screen/selection_theme_screen.dart';
@@ -20,6 +22,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    var audoPlayer = AudioPlayer();
     ThemeData themeData = Theme.of(context);
     AppLocalizations appLocalizations = AppLocalizations.of(context)!;
     return Scaffold(
@@ -76,10 +79,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   },
                 ),
                 ListTile(
-                leading: const Icon(CupertinoIcons.doc_text_fill),
-                title: Text(appLocalizations.versionName('1.0.0')),
-                onTap: () async {},
-              )
+                  leading: const Icon(CupertinoIcons.doc_text_fill),
+                  title: Text(appLocalizations.versionName('1.3.1')),
+                  onTap: () async {},
+                )
               ],
             )
           ],

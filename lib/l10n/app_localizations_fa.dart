@@ -193,4 +193,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String versionName(String versionCode) {
     return 'نسخه: $versionCode';
   }
+
+  @override
+  String get priorityTitle => 'اولویت کارنما';
 }
