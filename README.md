@@ -14,7 +14,7 @@
 - Offline support
 
 ## Online Preview
- https://hoseinjavid.github.io/karnama-preview/
+ https://hoseinjavid.github.io/karnama
 
 ## Preview
 ![demo](https://github.com/HoseinJavid/karnama/blob/main/demo/demo-fa.gif)
